@@ -19,6 +19,20 @@ class AttributeDict(dict):
         self[key] = value
 
 
+class DeepAttributeDict(AttributeDict):
+    """
+    A DeepAttributeDict is an AttributeDict of which dict objects at all depths are converted to DeepAttributeDict.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(DeepAttributeDict, self).__init__(*args, **kwargs)
+
+    def _deep_init(self):
+        for (key, value) in self.items():
+            if isinstance(value, dict) and not isinstance(value, AttributeDict):
+                self[key] = AttributeDict(value)
+
+
 class MergingDict(AttributeDict):
     """
     A MergingDict is an AttributeDict whose attribute/item values are always merged if the rvalue implements an update
@@ -88,6 +102,10 @@ class MergingDict(AttributeDict):
             # strings are special, update methods like set.update looks for iterables
             if method is 'update' and isinstance(value, basestring):
                 value = [value]
+            if method is 'append':
+                # if rvalue is a list and given object is a list, we expect all values to be appended
+                if isinstance(self[key], list) and isinstance(value, list):
+                    method = 'extend'
             getattr(self[key], method)(value)
         else:
             super(MergingDict, self).__setitem__(key, value)
@@ -97,6 +115,35 @@ class MergingDict(AttributeDict):
 
     def __setattr__(self, key, value):
         self._merge(key, value)
+
+
+class DeepMergingDict(MergingDict):
+    """
+    A DeepMergingDict is a MergingDict of which dict objects at all depths are converted to DeepMergingDicts.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(DeepMergingDict, self).__init__(*args, **kwargs)
+        self._deep_init()
+
+    @staticmethod
+    def _should_cast(value):
+        return isinstance(value, dict) and not isinstance(value, MergingDict)
+
+    def _deep_init(self):
+        for (key, value) in self.items():
+            if self._should_cast(value):
+                self.replace(key, DeepMergingDict(value))
+
+    def replace(self, key, value):
+        if self._should_cast(value):
+            value = DeepMergingDict(value)
+        super(DeepMergingDict, self).replace(key, value)
+
+    def update(self, other=None, **kwargs):
+        if self._should_cast(other):
+            other = DeepMergingDict(other)
+        super(DeepMergingDict, self).update(other, **kwargs)
 
 
 class BorgDict(Borg, dict):
