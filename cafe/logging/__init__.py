@@ -6,6 +6,8 @@ from os import getenv
 from os.path import isfile
 from yaml import safe_load as load
 
+from cafe.patterns.mixins import ContextMixin
+
 LOGGING_LEVELS = _levelNames
 
 BASE_CONFIGURATION = {
@@ -52,7 +54,7 @@ class LoggingManager(object):
             raise ValueError('Invalid configfile specified: {}'.format(configfile))
 
 
-class LoggedObject(object):
+class LoggedObject(ContextMixin):
     def __new__(cls, *args, **kwargs):
         cls.logger = getLogger('{}.{}'.format(cls.__module__, cls.__name__))
         cls.logger.debug('Instantiating')
@@ -60,6 +62,8 @@ class LoggedObject(object):
 
     def __enter__(self):
         self.logger.debug('Entering')
+        return super(LoggedObject, self).__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.logger.debug('Exiting')
+        super(LoggedObject, self).__exit__(exc_type, exc_val, exc_tb)
