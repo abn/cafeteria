@@ -26,11 +26,12 @@ class DeepAttributeDict(AttributeDict):
 
     def __init__(self, *args, **kwargs):
         super(DeepAttributeDict, self).__init__(*args, **kwargs)
+        self._deep_init()
 
     def _deep_init(self):
         for (key, value) in self.items():
             if isinstance(value, dict) and not isinstance(value, AttributeDict):
-                self[key] = AttributeDict(value)
+                self[key] = DeepAttributeDict(value)
 
 
 class MergingDict(AttributeDict):
