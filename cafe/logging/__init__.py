@@ -1,5 +1,5 @@
 # noinspection PyProtectedMember
-from logging import getLogger, basicConfig, debug, exception, INFO, _levelNames, root
+from logging import getLogger, debug, exception, _levelNames, root
 from logging.config import dictConfig
 
 from os import getenv
@@ -9,13 +9,6 @@ from yaml import safe_load as load
 from cafe.patterns.mixins import ContextMixin
 
 LOGGING_LEVELS = _levelNames
-
-BASE_CONFIGURATION = {
-    'format': '[%(asctime)-15s] [%(name)s] %(message)s',
-    'level': INFO,
-}
-
-basicConfig(**BASE_CONFIGURATION)
 
 
 class LoggingManager(object):
