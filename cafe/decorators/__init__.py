@@ -1,3 +1,7 @@
+# noinspection PyUnresolvedReferences
+from cafe.abc.compat import abstractclassmethod
+
+
 class classproperty(property):
     """
     A decorator that behaves like @property except that operates
