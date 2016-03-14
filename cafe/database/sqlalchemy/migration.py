@@ -1,8 +1,7 @@
-from __future__ import absolute_import
-from os.path import join
+import logging
 from sys import exit
 
-import logging
+from os.path import join
 
 log = logging.getLogger(__name__)
 
