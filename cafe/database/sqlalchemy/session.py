@@ -59,7 +59,7 @@ class SQLAlchemySessionManager(SessionManager):
         return rvalue
 
 
-def sessioned_query(session_manager=None, engine=None, context=False):
+def session_query_wrapper_generator(session_manager=None, engine=None, context=False):
     """
     Decorator which wraps a function in a SQLAlchemy session
 
@@ -99,3 +99,6 @@ def sessioned_query(session_manager=None, engine=None, context=False):
         return wrapper
 
     return session_decorator
+
+
+session_query = session_query_wrapper_generator()
