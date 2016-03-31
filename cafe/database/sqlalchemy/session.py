@@ -14,18 +14,18 @@ class SQLAlchemySessionManager(SessionManager):
         return cls.instance()
 
     @classmethod
-    def instance(cls, engine=None):
+    def instance(cls, engine=None, **kwargs):
         """
         :type engine: sqlalchemy.engine.Engine or None
         :rtype: cafe.database.sqlalchemy.session.SQLAlchemySessionManager
         """
-        return cls(cls.factory(engine))
+        return cls(cls.factory(engine=engine, **kwargs))
 
     @classmethod
-    def factory(cls, engine=None):
+    def factory(cls, engine=None, **kwargs):
         if engine is None:
             engine = cls.engine()
-        return sessionmaker(bind=engine)
+        return sessionmaker(bind=engine, **kwargs)
 
     @classmethod
     def engine(cls):
