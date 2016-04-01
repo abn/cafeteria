@@ -31,7 +31,7 @@ install_requires = extract_requirements('requirements.txt')
 
 setup(
     name='cafe',
-    version='0.9.1-dev',
+    version='0.9.1',
     description='Cafe: A convenience package providing various building blocks enabling pythonic patterns.',
     long_description=long_description,
     license='APLv2',
