@@ -1,14 +1,13 @@
-# noinspection PyProtectedMember
-from logging import getLogger, debug, exception, _levelNames, root
+from logging import getLogger, debug, exception, root
 from logging.config import dictConfig
 
 from os import getenv
 from os.path import isfile
 from yaml import safe_load as load
 
+from cafe.logging.trace import LOGGING_LEVELS
 from cafe.patterns.mixins import ContextMixin
-
-LOGGING_LEVELS = _levelNames
+from cafe.utilities import is_str
 
 
 class LoggingManager(object):
@@ -20,7 +19,7 @@ class LoggingManager(object):
         :raises: ValueError
         """
         level = level \
-            if not isinstance(level, basestring) \
+            if not is_str(level) \
             else int(LOGGING_LEVELS.get(level.upper(), level))
 
         for handler in root.handlers:
@@ -47,10 +46,11 @@ class LoggingManager(object):
             raise ValueError('Invalid configfile specified: {}'.format(configfile))
 
 
+# noinspection PyPep8Naming
 class LoggedObject(ContextMixin):
     def __new__(cls, *args, **kwargs):
         cls.logger = getLogger('{}.{}'.format(cls.__module__, cls.__name__))
-        cls.logger.debug('Instantiating')
+        cls.logger.trace('Instantiating')
         return super(LoggedObject, cls).__new__(cls)
 
     def __enter__(self):
@@ -58,5 +58,5 @@ class LoggedObject(ContextMixin):
         return super(LoggedObject, self).__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.logger.debug('Exiting')
+        self.logger.trace('Exiting')
         super(LoggedObject, self).__exit__(exc_type, exc_val, exc_tb)
