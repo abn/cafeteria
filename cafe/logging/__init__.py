@@ -54,7 +54,7 @@ class LoggedObject(ContextMixin):
         return super(LoggedObject, cls).__new__(cls)
 
     def __enter__(self):
-        self.logger.debug('Entering')
+        self.logger.trace('Entering')
         return super(LoggedObject, self).__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
