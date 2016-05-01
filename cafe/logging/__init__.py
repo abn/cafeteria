@@ -50,6 +50,7 @@ class LoggingManager(object):
 class LoggedObject(ContextMixin):
     def __new__(cls, *args, **kwargs):
         cls.logger = getLogger('{}.{}'.format(cls.__module__, cls.__name__))
+        """:type: cafe.logging.trace.TraceEnabledLogger"""
         cls.logger.trace('Instantiating')
         return super(LoggedObject, cls).__new__(cls)
 

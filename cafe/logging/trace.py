@@ -18,6 +18,10 @@ def trace(self, msg, *args, **kwargs):
         self._log(TRACE, msg, args, **kwargs)
 
 
+class TraceEnabledLogger(logging.Logger):
+    trace = trace
+
+
 logging.Logger.trace = trace
 
 # noinspection PyProtectedMember
