@@ -1,4 +1,10 @@
+from copy import deepcopy
+from json import loads, load, dumps
+
+from os.path import isfile
+
 from cafe.patterns.borg import Borg
+from cafe.utilities import is_str
 
 
 class AttributeDict(dict):
@@ -186,3 +192,31 @@ class BorgDict(Borg, dict):
 
     def keys(self):
         return self.__dict__.keys()
+
+
+class JSONAttributeDict(AttributeDict):
+    """
+    :type source: str or dict or cafe.datastructs.dict.JSONAttributeDict
+    """
+
+    def __init__(self, source):
+        super(JSONAttributeDict, self).__init__()
+
+        try:
+            self.update(loads(source) if is_str(source) else deepcopy(source))
+        except ValueError:
+            if isfile(source):
+                with open(source) as sf:
+                    self.update(load(sf))
+            else:
+                raise ValueError(source)
+
+    @property
+    def pretty(self):
+        return dumps(self, indent=2)
+
+    def __str__(self):
+        return self.pretty
+
+    def __repr__(self):
+        return self.pretty
