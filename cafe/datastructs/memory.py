@@ -20,7 +20,7 @@ class Memory(long):
     def __new__(cls, x, unit=None):
         if isinstance(x, str):
             units_regex = '|'.join(MemoryUnit.__members__.keys())
-            m = match('^(\d+) ?({})$'.format(units_regex), x)
+            m = match(r'^(\d+) ?({})$'.format(units_regex), x)
             if m is None:
                 raise ValueError('{} requires am integer or a string in the format "<value> ({})"'.format(
                     Memory.__class__.__name__, units_regex))

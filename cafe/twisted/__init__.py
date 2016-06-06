@@ -11,6 +11,7 @@ try:
         :type seconds: int
         """
         d = defer.Deferred()
+        # noinspection PyUnresolvedReferences
         reactor.callLater(seconds, d.callback, seconds)
         return d
 except ImportError:

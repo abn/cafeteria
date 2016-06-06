@@ -35,7 +35,7 @@ class DeepAttributeDict(AttributeDict):
         self._deep_init()
 
     def _deep_init(self):
-        for (key, value) in self.items():
+        for key, value in self.items():
             if isinstance(value, dict) and not isinstance(value, AttributeDict):
                 self[key] = DeepAttributeDict(value)
 
@@ -107,12 +107,11 @@ class MergingDict(AttributeDict):
         method = self._merge_method(key)
         if method is not None:
             # strings are special, update methods like set.update looks for iterables
-            if method is 'update' and isinstance(value, basestring):
+            if method is 'update' and is_str(value):
                 value = [value]
-            if method is 'append':
+            if method is 'append' and isinstance(self[key], list) and isinstance(value, list):
                 # if rvalue is a list and given object is a list, we expect all values to be appended
-                if isinstance(self[key], list) and isinstance(value, list):
-                    method = 'extend'
+                method = 'extend'
             getattr(self[key], method)(value)
         else:
             super(MergingDict, self).__setitem__(key, value)
@@ -138,7 +137,7 @@ class DeepMergingDict(MergingDict):
         return isinstance(value, dict) and not isinstance(value, MergingDict)
 
     def _deep_init(self):
-        for (key, value) in self.items():
+        for key, value in self.items():
             if self._should_cast(value):
                 self.replace(key, DeepMergingDict(value))
 

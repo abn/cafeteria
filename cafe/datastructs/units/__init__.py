@@ -14,7 +14,7 @@ class BaseUnitClass(float):
     def __new__(cls, x, unit=None):
         if isinstance(x, str):
             units_regex = '|'.join(cls.UNITS.keys())
-            m = match('^(\d+(.\d+)?) ?({})$'.format(units_regex), x)
+            m = match(r'^(\d+(.\d+)?) ?({})$'.format(units_regex), x)
             if m is None:
                 raise ValueError('{} requires number or a string in the format "<value> ({})"'.format(
                     cls.__name__, units_regex))
