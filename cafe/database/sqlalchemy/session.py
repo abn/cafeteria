@@ -1,5 +1,7 @@
 from functools import wraps
 
+from os import getenv
+
 from sqlalchemy.orm import sessionmaker
 
 from cafe.abc.compat import abstractclassmethod
@@ -21,10 +23,27 @@ class SQLAlchemySessionManager(SessionManager):
         """
         return cls(cls.factory(engine=engine, **kwargs))
 
+    @staticmethod
+    def _determine_echo():
+        """
+        SQLAlchemy echo level, using DATABASE_ECHO environment variable
+
+        Possible values: True, False, 'debug'
+
+        :return: True | False | basestring
+        """
+        echo = getenv('DATABASE_ECHO', 'false')
+        if echo.lower() == 'true':
+            return True
+        if echo.lower() == 'debug':
+            return 'debug'
+        return False
+
     @classmethod
     def factory(cls, engine=None, **kwargs):
         if engine is None:
             engine = cls.engine()
+        engine.echo = cls._determine_echo()
         return sessionmaker(bind=engine, **kwargs)
 
     @classmethod
