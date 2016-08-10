@@ -10,6 +10,9 @@ def listify(arg):
     :type arg: list
     :rtype: list
     """
+    if isinstance(arg, (set, tuple)):
+        # if it is a set or tuple make it a list
+        return list(arg)
     if not isinstance(arg, list):
         return [arg]
     return arg
