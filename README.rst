@@ -1,3 +1,6 @@
+.. image:: https://badge.fury.io/py/python-cafe.svg
+    :target: https://badge.fury.io/py/python-cafe
+
 Python Cafe Package
 ===================
 
