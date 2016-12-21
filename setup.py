@@ -30,14 +30,14 @@ with open(path.join(base_dir, 'README.rst')) as f:
 install_requires = extract_requirements('requirements.txt')
 
 setup(
-    name='cafe',
+    name='python-cafe',
     version='0.13.0-dev',
-    description='Cafe: A convenience package providing various building blocks enabling pythonic patterns.',
+    description='Python Cafe: A convenience package providing various building blocks enabling pythonic patterns.',
     long_description=long_description,
     license='APLv2',
-    url='https://github.com/iixlabs/python-cafe',
-    author='Arun Babu Neelicattu, Josha Inglis',
-    author_email='arun.neelicattu@gmail.com, joshainglis@gmail.com',
+    url='https://github.com/abn/python-cafe',
+    author='Arun Babu Neelicattu, Josha Inglis, Betsy Alpert',
+    author_email='arun.neelicattu@gmail.com, joshainglis@gmail.com, lizbeth.alpert@gmail.com',
     classifiers=[
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Intended Audience :: Developers',
