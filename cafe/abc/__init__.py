@@ -4,6 +4,7 @@ from abc import ABCMeta
 class AbstractClass(object):
     __metaclass__ = ABCMeta
 
+    # noinspection PyUnresolvedReferences
     @classmethod
     def __subclasshook__(cls, other_class):
         return super(

@@ -4,6 +4,7 @@ from re import match
 try:
     long
 except NameError:
+    # noinspection PyShadowingBuiltins
     long = int
 
 

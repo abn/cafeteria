@@ -17,6 +17,7 @@ class MemoryUnit(Enum):
 
 
 class Memory(long):
+    # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
         if isinstance(x, str):
             units_regex = '|'.join(MemoryUnit.__members__.keys())
@@ -31,4 +32,5 @@ class Memory(long):
             raise ValueError('No unit provided.')
         else:
             x = x * unit.value
+        # noinspection PyTypeChecker
         return super(Memory, cls).__new__(cls, x)

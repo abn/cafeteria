@@ -46,6 +46,7 @@ class DataUnit(BaseUnitClass):
     # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
         if unit is None:
+            # noinspection PyUnresolvedReferences
             unit = DataBaseUnit.bit.name
         return super(DataUnit, cls).__new__(cls, x, unit)
 
@@ -63,5 +64,6 @@ class DataRateUnit(DataUnit):
     # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
         if unit is None:
+            # noinspection PyUnresolvedReferences
             unit = '{}ps'.format(DataBaseUnit.bit.name)
         return super(DataUnit, cls).__new__(cls, x, unit)

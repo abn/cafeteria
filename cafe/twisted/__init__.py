@@ -1,5 +1,6 @@
 
 try:
+    # noinspection PyPackageRequirements,PyUnresolvedReferences
     from twisted.internet import defer, reactor
 
     def async_sleep(seconds):

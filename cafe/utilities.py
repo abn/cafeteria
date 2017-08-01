@@ -2,6 +2,7 @@ from os import getenv
 from six import string_types
 
 
+# noinspection SpellCheckingInspection
 def listify(arg):
     """
     Simple utility method to ensure an argument provided is a list. If the

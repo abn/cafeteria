@@ -2,6 +2,7 @@
 from cafe.abc.compat import abstractclassmethod  # noqa F401
 
 
+# noinspection PyPep8Naming,SpellCheckingInspection
 class classproperty(property):
     """
     A decorator that behaves like @property except that operates
@@ -14,5 +15,6 @@ class classproperty(property):
         super(classproperty, self).__init__(fget, *arg, **kw)
         self.__doc__ = fget.__doc__
 
+    # noinspection PyMethodOverriding,PyArgumentList,PyMethodParameters
     def __get__(desc, self, cls):
         return desc.fget(cls)
