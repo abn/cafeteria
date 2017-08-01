@@ -16,8 +16,10 @@ class BaseUnitClass(float):
             units_regex = '|'.join(cls.UNITS.keys())
             m = match(r'^(\d+(.\d+)?) ?({})$'.format(units_regex), x)
             if m is None:
-                raise ValueError('{} requires number or a string in the format "<value> ({})"'.format(
-                    cls.__name__, units_regex))
+                raise ValueError(
+                    '{} requires number or a string in the format "<value> '
+                    '({})"'.format(cls.__name__, units_regex)
+                )
             x = float(m.group(1)) * cls.UNITS.get(m.group(3))
         elif unit is None:
             raise ValueError('No unit provided.')

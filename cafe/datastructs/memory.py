@@ -22,8 +22,10 @@ class Memory(long):
             units_regex = '|'.join(MemoryUnit.__members__.keys())
             m = match(r'^(\d+) ?({})$'.format(units_regex), x)
             if m is None:
-                raise ValueError('{} requires am integer or a string in the format "<value> ({})"'.format(
-                    Memory.__class__.__name__, units_regex))
+                raise ValueError(
+                    '{} requires am integer or a string in the format "<value>'
+                    ' ({})"'.format(Memory.__class__.__name__, units_regex)
+                )
             x = int(m.group(1)) * MemoryUnit.__members__.get(m.group(2)).value
         elif unit is None:
             raise ValueError('No unit provided.')

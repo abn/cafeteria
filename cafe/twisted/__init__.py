@@ -6,7 +6,7 @@ try:
         """
         An asynchronous sleep function using twsited.
 
-        Source: http://twistedmatrix.com/pipermail/twisted-python/2009-October/020788.html
+        Source: http://twistedmatrix.com/pipermail/twisted-python/2009-October/020788.html # noqa
 
         :type seconds: int
         """

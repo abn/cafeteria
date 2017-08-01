@@ -1,9 +1,11 @@
 class BorgStateManager(object):
     """
-    A special State Manager for Borg classes and child classes. This is what makes it possible for child
-    classes to maintain their own state different to both parents, siblings and their own children.
+    A special State Manager for Borg classes and child classes. This is what
+    makes it possible for child classes to maintain their own state different
+    to both parents, siblings and their own children.
 
-    This itself implements the Borg pattern so that all its instances have a shared state.
+    This itself implements the Borg pattern so that all its instances have a
+    shared state.
 
     Each class state is mapped to the the hash of the class itself.
     """
@@ -30,10 +32,11 @@ class BorgStateManager(object):
 
 class Borg(object):
     """
-    A Borg pattern base class. Usable on its own or via inheritance. Uses insomniac.BorgStateManager internally to
-    achieve state separation for children and grand children.
+    A Borg pattern base class. Usable on its own or via inheritance. Uses
+    `cafe.patterns.borg.BorgStateManager` internally to achieve state
+    separation for children and grand children.
 
-    See http://code.activestate.com/recipes/66531-singleton-we-dont-need-no-stinkin-singleton-the-bo/ for more
+    See http://code.activestate.com/recipes/66531-singleton-we-dont-need-no-stinkin-singleton-the-bo/ for more # noqa
     information regarding the Borg Pattern.
     """
 

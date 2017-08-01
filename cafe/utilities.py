@@ -4,8 +4,9 @@ from six import string_types
 
 def listify(arg):
     """
-    Simple utility method to ensure an argument provided is a list. If the provider argument is not an instance of
-    `list`, then we return [arg], else arg is returned.
+    Simple utility method to ensure an argument provided is a list. If the
+    provider argument is not an instance of `list`, then we return [arg], else
+    arg is returned.
 
     :type arg: list
     :rtype: list
@@ -30,8 +31,10 @@ def is_str(arg):
 
 def resolve_setting(default, arg_value=None, env_var=None, config_value=None):
     """
-    Resolves a setting for a configuration option. The winning value is chosen from multiple methods of configuration,
-    in the following order of priority (top first):
+    Resolves a setting for a configuration option. The winning value is chosen
+    from multiple methods of configuration, in the following order of priority
+    (top first):
+
     - Explicitly passed argument
     - Environment variable
     - Configuration file entry

@@ -39,11 +39,19 @@ class LoggingManager(object):
                 try:
                     dictConfig(load(cf))
                 except ValueError:
-                    debug('Learn to config foooo! Improper config at %s', configfile)
+                    debug(
+                        'Learn to config foooo! Improper config at %s',
+                        configfile
+                    )
                 except Exception:
-                    exception('Something went wrong while reading %s.', configfile)
+                    exception(
+                        'Something went wrong while reading %s.',
+                        configfile
+                    )
         else:
-            raise ValueError('Invalid configfile specified: {}'.format(configfile))
+            raise ValueError(
+                'Invalid configfile specified: {}'.format(configfile)
+            )
 
 
 # noinspection PyPep8Naming

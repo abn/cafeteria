@@ -9,7 +9,10 @@ from setuptools import setup, find_packages
 
 
 def extract_requirements(filename):
-    return [str(r.req) for r in parse_requirements(filename, session=PipSession)]
+    return [
+        str(r.req)
+        for r in parse_requirements(filename, session=PipSession)
+    ]
 
 
 def find_package_data(source, strip=''):
@@ -32,12 +35,15 @@ install_requires = extract_requirements('requirements.txt')
 setup(
     name='python-cafe',
     version='0.14.3-dev',
-    description='Python Cafe: A convenience package providing various building blocks enabling pythonic patterns.',
+    description='Python Cafe: A convenience package providing various '
+                'building blocks enabling pythonic patterns.',
     long_description=long_description,
     license='APLv2',
     url='https://github.com/abn/python-cafe',
     author='Arun Babu Neelicattu, Josha Inglis, Betsy Alpert',
-    author_email='arun.neelicattu@gmail.com, joshainglis@gmail.com, lizbeth.alpert@gmail.com',
+    author_email='arun.neelicattu@gmail.com, '
+                 'joshainglis@gmail.com, '
+                 'lizbeth.alpert@gmail.com',
     classifiers=[
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Intended Audience :: Developers',

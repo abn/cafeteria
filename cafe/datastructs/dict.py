@@ -9,8 +9,9 @@ from cafe.utilities import is_str
 
 class AttributeDict(dict):
     """
-    A dictionary implementation that allows for all keys to be used as an attribute. In this implementation we do
-    proper get/setattr override here, no self.__dict__ mambo jumbo.
+    A dictionary implementation that allows for all keys to be used as an
+    attribute. In this implementation we do proper get/setattr override here,
+    no self.__dict__ mambo jumbo.
     """
 
     def __init__(self, *args, **kwargs):
@@ -19,7 +20,9 @@ class AttributeDict(dict):
     def __getattr__(self, item):
         if item in self:
             return self[item]
-        raise AttributeError("Could not get attr: '{}' from '{}'".format(item, self))
+        raise AttributeError(
+            "Could not get attr: '{}' from '{}'".format(item, self)
+        )
 
     def __setattr__(self, key, value):
         self[key] = value
@@ -27,7 +30,8 @@ class AttributeDict(dict):
 
 class DeepAttributeDict(AttributeDict):
     """
-    A DeepAttributeDict is an AttributeDict of which dict objects at all depths are converted to DeepAttributeDict.
+    A DeepAttributeDict is an AttributeDict of which dict objects at all depths
+    are converted to DeepAttributeDict.
     """
 
     def __init__(self, *args, **kwargs):
@@ -36,20 +40,23 @@ class DeepAttributeDict(AttributeDict):
 
     def _deep_init(self):
         for key, value in self.items():
-            if isinstance(value, dict) and not isinstance(value, AttributeDict):
+            if isinstance(value, dict) and \
+                    not isinstance(value, AttributeDict):
                 self[key] = DeepAttributeDict(value)
 
 
 class MergingDict(AttributeDict):
     """
-    A MergingDict is an AttributeDict whose attribute/item values are always merged if the rvalue implements an update
-    or append method. If the rvalue is not merge-able, it is simply replaced.
+    A MergingDict is an AttributeDict whose attribute/item values are always
+    merged if the rvalue implements an update or append method. If the rvalue
+    is not merge-able, it is simply replaced.
     """
 
     def replace(self, key, value):
         """
-        Convenience method provided as a way to replace a value mapped by a key. This is required since a MergingDict
-        always merges via assignment of item/attribute.
+        Convenience method provided as a way to replace a value mapped by a
+        key.This is required since a MergingDict always merges via assignment
+        of item/attribute.
 
         :param key: Attribute name or item key to replace rvalue for.
         :type key: object
@@ -61,8 +68,9 @@ class MergingDict(AttributeDict):
 
     def update(self, other=None, **kwargs):
         """
-        A special update method to handle merging of dict objects. For all other iterable objects, we use the parent
-        class update method. For other objects, we simply make use of the internal merging logic.
+        A special update method to handle merging of dict objects. For all
+        other iterable objects, we use the parent class update method. For
+        other objects, we simply make use of the internal merging logic.
 
         :param other: An iterable object.
         :type other: dict or object
@@ -82,10 +90,12 @@ class MergingDict(AttributeDict):
 
     def _merge_method(self, key):
         """
-        Identify a merge compatible method available in self[key]. Currently we support 'update' and 'append'.
+        Identify a merge compatible method available in self[key]. Currently we
+        support 'update' and 'append'.
 
         :param key: Attribute name or item key
-        :return: Method name usable to merge a value into the instance mapped by key
+        :return: Method name usable to merge a value into the instance mapped
+                by key
         :rtype: str
         """
         if key in self:
@@ -96,7 +106,8 @@ class MergingDict(AttributeDict):
 
     def _merge(self, key, value):
         """
-        Internal merge logic implementation to allow merging of values when setting attributes/items.
+        Internal merge logic implementation to allow merging of values when
+        setting attributes/items.
 
         :param key: Attribute name or item key
         :type key: str
@@ -106,11 +117,15 @@ class MergingDict(AttributeDict):
         """
         method = self._merge_method(key)
         if method is not None:
-            # strings are special, update methods like set.update looks for iterables
+            # strings are special, update methods like set.update looks for
+            # iterables
             if method is 'update' and is_str(value):
                 value = [value]
-            if method is 'append' and isinstance(self[key], list) and isinstance(value, list):
-                # if rvalue is a list and given object is a list, we expect all values to be appended
+            if method is 'append' \
+                    and isinstance(self[key], list) \
+                    and isinstance(value, list):
+                # if rvalue is a list and given object is a list, we expect all
+                # values to be appended
                 method = 'extend'
             getattr(self[key], method)(value)
         else:
@@ -125,7 +140,8 @@ class MergingDict(AttributeDict):
 
 class DeepMergingDict(MergingDict):
     """
-    A DeepMergingDict is a MergingDict of which dict objects at all depths are converted to DeepMergingDicts.
+    A DeepMergingDict is a MergingDict of which dict objects at all depths are
+    converted to DeepMergingDicts.
     """
 
     def __init__(self, *args, **kwargs):
@@ -154,8 +170,9 @@ class DeepMergingDict(MergingDict):
 
 class BorgDict(Borg, dict):
     """
-    An dict implementing the Borg Pattern. This can be extended via inheritance. In this implementation the dict itself
-    is not used. All actions are mapped to the Borg shared state.
+    An dict implementing the Borg Pattern. This can be extended via
+    inheritance. In this implementation the dict itself is not used. All
+    actions are mapped to the Borg shared state.
     """
 
     def __init__(self, *args, **kwargs):
