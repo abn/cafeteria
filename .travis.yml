@@ -10,13 +10,15 @@ addons:
       secure: "WX9mwPs3HVq4u6N9Nrlua4l3CxV+h9VGNZF3vR6SBZV6nJzQgfFKLvn8GjRktU1HgY3NvjOcs+nQrUmkH0FQeg544eCVhfxmUU/KkhCOEMD8Rpn6/kCXVZp8P2YIoRzehROPV45bB4TM+kw0u7bntM18CJFiC8gc30j/Ox27TVYBHtJh3mB+ueYjZGEckEFOZmR/r+IrC7otBApsghhRbp4+fg1f/1sWY2bhLx4rRa8sl5Le28Kuqu+Lh21Yj9UZvVsJFgP44lVm6olkG/7G23gEPlE/8FMkoTvaGUGfoAXwZgnbfLdwIuWjYxBgvM6MJMkbEJivRFiNSdjMf1ryyRiyHIE1Y703NtazMp/fm9oInv07Jrn3B2HUXQ4l8vUZjiJX4RiJ5tI3+lHTZRdkTrDdKDHT4fp3x7Q5PCdWOIrCjxtTAKUKijWCDNiftPZ6UWUACsXje9Uj+PD5UEK6Hnb7O9QYmaB4nWaFQ1hEchStCQer89Li/FSPxl/DkwQES8KcntKiQxgDEQn6NSEs0noBlwGhPb4B52fAoiQgLQV0X1ETaZR7Dr3tOrNS6IcLqw90OptmCTeXSqvaXGWytyTQyTPrshEsm3BvXJ6Co8sSYj+Yhi15QGxzeJf8JmuL3s0d+NyGeB5OlVy4kVrBPvInSzdaPsOyYXnbGN1MpO8="
     branches:
       - master
-
 install:
     - pip install -r requirements.txt
 
 script:
     - sonar-scanner
-
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 deploy:
   provider: pypi
   user: abn
@@ -24,5 +26,4 @@ deploy:
     secure: i/xepORo+NMNI5w1VkeKiLlE+2Fm4ddoWqXmRD4KdU9KgCliprQpyV8q10fnYdJ7rQhGys2tO8inu4iHErFMt6+a7Mn3Sq1nTUHuX/1gVKCDxAqHvq8i6L/8yFx5MErBexjiz+P0pU4vGiA2xng4NP/vSNrlyUwaAVCHHJLnRX+5TvlKywvuw/NXPgoZ/+QmpJvOagmrHVmaA7nUszLv7KR794s12hZpWM0bFfbxvsj1KMz8Ne6CRVInPL1/2ethjus3dVJI4BWytnKWeZ5RwtQvsDl5AGl6TNlEDXTJAGo1cqidLIyW+1JXysEko2AY4ozzQld7wGOMiLWd/r+x350cfIh+VocqV9CDnShLav9/UiVh1eMcqzK4WMHE4xGjRIpnXlL+tx7pwP1ooZILB47320DRzr4MPkeD/X5qhQTyOjYSTgNkxFP+JB6r/5/XJZKo86+Al8/dCvDvrqiW/ExRp7+PxLY0KO7W4lkD1SCB0N2VZWWmi1AmvmyzzenvxQSHa7CpgLEJIaKYaIvNJwMlHWlzPbxUEuG2a1iUyVUoLHFJWIunVGhZNIkcpKbf32pgRodFyHYXFfFn7xrmFIqxFsA1fLD0J9nDiA6ROVIBNXpHjJd6kmUKo+8wDYAGb9DlWqcOlPvTIb/lOuP02fvWPIadnCeOo4U2dNfUFoU=
   on:
     tags: true
-    distributions: sdist bdist_wheel
-    repo: abn/python-cafe
+    distributions: "sdist bdist_wheel"
