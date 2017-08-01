@@ -1,5 +1,5 @@
 # noinspection PyUnresolvedReferences
-from cafe.abc.compat import abstractclassmethod
+from cafe.abc.compat import abstractclassmethod  # noqa F401
 
 
 class classproperty(property):
