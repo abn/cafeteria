@@ -24,5 +24,9 @@ class TraceEnabledLogger(logging.Logger):
 
 logging.Logger.trace = trace
 
-# noinspection PyProtectedMember
-LOGGING_LEVELS = logging._levelNames
+try:
+    # noinspection PyProtectedMember
+    LOGGING_LEVELS = logging._levelToName
+except AttributeError:
+    # noinspection PyProtectedMember
+    LOGGING_LEVELS = logging._levelNames
