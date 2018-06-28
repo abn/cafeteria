@@ -45,7 +45,7 @@ install_requires = extract_requirements('requirements.txt')
 
 setup(
     name='python-cafe',
-    version='0.15.0-dev',
+    version='0.15.0',
     description='Python Cafe: A convenience package providing various '
                 'building blocks enabling pythonic patterns.',
     long_description=long_description,
