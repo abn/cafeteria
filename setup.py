@@ -3,12 +3,23 @@ Source build and installation script.
 """
 
 from os import path, sep, walk
-from pip.download import PipSession
-from pip.req import parse_requirements
 from setuptools import setup, find_packages
 
 
 def extract_requirements(filename):
+    """
+    Given a requirements file, use pip's internal API to parse and generate list of dependencies.
+
+    :param filename: The filename of the requirements file.
+    :return: List of requirements as parsed by pip internals.
+    """
+    try:
+        from pip._internal.download import PipSession
+        from pip._internal.req import parse_requirements
+    except ImportError:
+        # pip <= 9.0.1
+        from pip.download import PipSession
+        from pip.req import parse_requirements
     return [
         str(r.req)
         for r in parse_requirements(filename, session=PipSession)
