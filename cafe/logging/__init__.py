@@ -59,13 +59,13 @@ class LoggedObject(ContextMixin):
     def __new__(cls, *args, **kwargs):
         cls.logger = getLogger('{}.{}'.format(cls.__module__, cls.__name__))
         """:type: cafe.logging.trace.TraceEnabledLogger"""
-        cls.logger.trace('Instantiating')
+        cls.logger.trace('Instantiating %s.%s', cls.__module__, cls.__qualname__)
         return super(LoggedObject, cls).__new__(cls)
 
     def __enter__(self):
-        self.logger.trace('Entering')
+        self.logger.trace('Entering context for %s.%s', self.__module__, self.__class__.__qualname__)
         return super(LoggedObject, self).__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.logger.trace('Exiting')
+        self.logger.trace('Exiting context for %s.%s', self.__module__, self.__class__.__qualname__)
         super(LoggedObject, self).__exit__(exc_type, exc_val, exc_tb)
