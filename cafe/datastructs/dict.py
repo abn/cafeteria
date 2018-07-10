@@ -209,6 +209,9 @@ class BorgDict(Borg, dict):
     def keys(self):
         return self.__dict__.keys()
 
+    def get(self, *args, **kwargs):
+        return self.__dict__.get(*args, **kwargs)
+
 
 class JSONAttributeDict(AttributeDict):
     """
