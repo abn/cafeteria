@@ -12,6 +12,7 @@ env:
 
 install:
   - pip install poetry
+  - poetry add --dev appdirs
   - poetry install
 
 script: ignore
