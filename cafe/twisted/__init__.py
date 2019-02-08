@@ -1,4 +1,3 @@
-
 try:
     # noinspection PyPackageRequirements,PyUnresolvedReferences
     from twisted.internet import defer, reactor
@@ -15,5 +14,7 @@ try:
         # noinspection PyUnresolvedReferences
         reactor.callLater(seconds, d.callback, seconds)
         return d
+
+
 except ImportError:
     pass

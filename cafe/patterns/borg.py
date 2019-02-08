@@ -9,6 +9,7 @@ class BorgStateManager(object):
 
     Each class state is mapped to the the hash of the class itself.
     """
+
     __shared_state = {}
 
     def __init__(self):
@@ -24,9 +25,9 @@ class BorgStateManager(object):
         :rtype: dict
         """
         if clz not in cls.__shared_state:
-            cls.__shared_state[clz] = clz.init_state() \
-                if hasattr(clz, 'init_state') \
-                else {}
+            cls.__shared_state[clz] = (
+                clz.init_state() if hasattr(clz, "init_state") else {}
+            )
         return cls.__shared_state[clz]
 
 

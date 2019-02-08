@@ -1,6 +1,5 @@
 from copy import deepcopy
 from json import loads, load, dumps
-
 from os.path import isfile
 
 from cafe.patterns.borg import Borg
@@ -20,9 +19,7 @@ class AttributeDict(dict):
     def __getattr__(self, item):
         if item in self:
             return self[item]
-        raise AttributeError(
-            "Could not get attr: '{}' from '{}'".format(item, self)
-        )
+        raise AttributeError("Could not get attr: '{}' from '{}'".format(item, self))
 
     def __setattr__(self, key, value):
         self[key] = value
@@ -40,8 +37,7 @@ class DeepAttributeDict(AttributeDict):
 
     def _deep_init(self):
         for key, value in self.items():
-            if isinstance(value, dict) and \
-                    not isinstance(value, AttributeDict):
+            if isinstance(value, dict) and not isinstance(value, AttributeDict):
                 self[key] = DeepAttributeDict(value)
 
 
@@ -99,7 +95,7 @@ class MergingDict(AttributeDict):
         :rtype: str
         """
         if key in self:
-            for method in ['update', 'append']:
+            for method in ["update", "append"]:
                 if hasattr(self[key], method):
                     return method
         return None
@@ -119,14 +115,16 @@ class MergingDict(AttributeDict):
         if method is not None:
             # strings are special, update methods like set.update looks for
             # iterables
-            if method is 'update' and is_str(value):
+            if method == "update" and is_str(value):
                 value = [value]
-            if method is 'append' \
-                    and isinstance(self[key], list) \
-                    and isinstance(value, list):
+            if (
+                method == "append"
+                and isinstance(self[key], list)
+                and isinstance(value, list)
+            ):
                 # if rvalue is a list and given object is a list, we expect all
                 # values to be appended
-                method = 'extend'
+                method = "extend"
             getattr(self[key], method)(value)
         else:
             super(MergingDict, self).__setitem__(key, value)

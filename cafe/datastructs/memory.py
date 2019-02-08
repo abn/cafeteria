@@ -1,6 +1,8 @@
 from enum import Enum
 from re import match
 
+from cafe.compat import long
+
 BYTES = 1
 KB = 1024 * BYTES
 MB = 1024 * KB
@@ -20,8 +22,8 @@ class Memory(long):
     # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
         if isinstance(x, str):
-            units_regex = '|'.join(MemoryUnit.__members__.keys())
-            m = match(r'^(\d+) ?({})$'.format(units_regex), x)
+            units_regex = "|".join(MemoryUnit.__members__.keys())
+            m = match(r"^(\d+) ?({})$".format(units_regex), x)
             if m is None:
                 raise ValueError(
                     '{} requires am integer or a string in the format "<value>'
@@ -29,7 +31,7 @@ class Memory(long):
                 )
             x = int(m.group(1)) * MemoryUnit.__members__.get(m.group(2)).value
         elif unit is None:
-            raise ValueError('No unit provided.')
+            raise ValueError("No unit provided.")
         else:
             x = x * unit.value
         # noinspection PyTypeChecker

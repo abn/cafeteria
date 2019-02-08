@@ -1,7 +1,7 @@
 import logging
 
 TRACE = 5
-logging.addLevelName(5, 'TRACE')
+logging.addLevelName(5, "TRACE")
 logging.TRACE = 5
 
 

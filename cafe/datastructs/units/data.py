@@ -32,16 +32,14 @@ class DataUnit(BaseUnitClass):
     A data unit object internally stores the number of bits associated.
     Eg: DataUnit(1, 'byte') == 8
     """
+
     UNITS = {
-        '{}{}'.format(multiplier, base):
-            DataMultiplier[multiplier].value * DataBaseUnit[base].value
+        "{}{}".format(multiplier, base): DataMultiplier[multiplier].value
+        * DataBaseUnit[base].value
         for multiplier in DataMultiplier.__members__
         for base in DataBaseUnit.__members__
     }
-    UNITS.update({
-        base: DataBaseUnit[base].value
-        for base in DataBaseUnit.__members__
-    })
+    UNITS.update({base: DataBaseUnit[base].value for base in DataBaseUnit.__members__})
 
     # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
@@ -55,15 +53,16 @@ class DataRateUnit(DataUnit):
     """
     A data rate unit object internally stores the number bits per second.
     """
+
     UNITS = {
-        '{}{}'.format(unit, suffix): DataUnit.UNITS[unit]
+        "{}{}".format(unit, suffix): DataUnit.UNITS[unit]
         for unit in DataUnit.UNITS
-        for suffix in ['/s', 'ps']
+        for suffix in ["/s", "ps"]
     }
 
     # noinspection PyInitNewSignature
     def __new__(cls, x, unit=None):
         if unit is None:
             # noinspection PyUnresolvedReferences
-            unit = '{}ps'.format(DataBaseUnit.bit.name)
+            unit = "{}ps".format(DataBaseUnit.bit.name)
         return super(DataUnit, cls).__new__(cls, x, unit)
