@@ -25,7 +25,7 @@ name = "python-cafe"
 packages = [
     { include = "cafe" },
 ]
-version = "0.16.1-dev"
+version = "0.17.0-dev"
 repository = "https://github.com/abn/python-cafe"
 description = "Python Cafe: A convenience package providing various building blocks enabling pythonic patterns."
 authors = [
