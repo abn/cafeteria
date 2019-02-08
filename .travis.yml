@@ -30,10 +30,14 @@ jobs:
           branches:
             - master
       script: sonar-scanner
+    - stage: build
+      python: 3.6
+      script:
+        - poetry build
+      if: tag IS NOT present
     - stage: deploy
       python: 3.6
       script:
         - poetry config http-basic.pypi $PYPI_USER $PYPI_PASSWORD
         - poetry publish --build
-        on:
-          tags: true
+      if: tag IS present
