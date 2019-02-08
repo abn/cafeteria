@@ -7,8 +7,14 @@ python:
     - 3.5
     - 3.6
 
+env:
+  global:
+    - PYPI_USER=abn
+    - secure: "IcWCXDQC3gml8KonFvf5jVXaOl254yph82YkLcOJvzuuI2z6qvQEvYBw6TA38Bu+UkXorJay/fw0hkPwbOc75FyjuKxirearhMavDUr1iLHIP158XbVOUAYTonD/t1qjq+eM6pe6If/tf6GmTM3HVNrdmZmLX3jkrHYtAdGlMpViXGWlB3AzQNdDhgAjU4hyTRRnzdA2KRqai/pwFi22ZdypF1zUJE5xQCa/jZJxOGZafDdrWsOYQmJ/QK0MPvsmGsgT7RvhAu+Urfme5lGP5AJsv1C6Aitf1AxFv4NkaFBNxDXfNuiLfJJpZjX0ypiv4RDSqq+0wcE07Ib4ddSEBvrNWMPeA/61KTolHOqSsGUvtU9iwDiQKgoYCmqWwIerzPGAMSVgultgWRkpXd7B/ZTQzfS1p95t0redtghm+kUUjcVtutJvNNQv8DMa/iaJk5Ol8YHTOiOzNeJ+e/NtKbLxycvcMZCnSpCLPcYIsP2K+UKqgEGpWEOVca7OUo4gXgkpg6FKaghwvePy6HAuDifMm60JYwMmHVtRLgnFSaATvSdfrNC6+zoRHs08v7orxfDQWy89YsuMDphUbH8lgC0GSSoEQv5GWQ+f5bAUIWdDmu/tLsqz2MlJmWjQ1f6saLrDRbRyt9ck2gZEq8vcdMgTcQQhXW4BOUGBByzGZJY="
+
 install:
-  - pip install -r requirements.txt
+  - pip install poetry
+  - poetry install
 
 script: ignore
 
@@ -26,12 +32,8 @@ jobs:
       script: sonar-scanner
     - stage: deploy
       python: 3.6
-      script: ignore
-      deploy:
-        provider: pypi
-        user: abn
-        password:
-          secure: i/xepORo+NMNI5w1VkeKiLlE+2Fm4ddoWqXmRD4KdU9KgCliprQpyV8q10fnYdJ7rQhGys2tO8inu4iHErFMt6+a7Mn3Sq1nTUHuX/1gVKCDxAqHvq8i6L/8yFx5MErBexjiz+P0pU4vGiA2xng4NP/vSNrlyUwaAVCHHJLnRX+5TvlKywvuw/NXPgoZ/+QmpJvOagmrHVmaA7nUszLv7KR794s12hZpWM0bFfbxvsj1KMz8Ne6CRVInPL1/2ethjus3dVJI4BWytnKWeZ5RwtQvsDl5AGl6TNlEDXTJAGo1cqidLIyW+1JXysEko2AY4ozzQld7wGOMiLWd/r+x350cfIh+VocqV9CDnShLav9/UiVh1eMcqzK4WMHE4xGjRIpnXlL+tx7pwP1ooZILB47320DRzr4MPkeD/X5qhQTyOjYSTgNkxFP+JB6r/5/XJZKo86+Al8/dCvDvrqiW/ExRp7+PxLY0KO7W4lkD1SCB0N2VZWWmi1AmvmyzzenvxQSHa7CpgLEJIaKYaIvNJwMlHWlzPbxUEuG2a1iUyVUoLHFJWIunVGhZNIkcpKbf32pgRodFyHYXFfFn7xrmFIqxFsA1fLD0J9nDiA6ROVIBNXpHjJd6kmUKo+8wDYAGb9DlWqcOlPvTIb/lOuP02fvWPIadnCeOo4U2dNfUFoU=
-        distributions: "sdist bdist_wheel"
+      script:
+        - poetry config http-basic.pypi $PYPI_USER $PYPI_PASSWORD
+        - poetry publish --build
         on:
           tags: true

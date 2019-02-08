@@ -1,0 +1,60 @@
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.black]
+line-length = 88
+py36 = true
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.poetry]
+name = "python-cafe"
+packages = [
+    { include = "cafe" },
+]
+version = "0.16.1-dev"
+repository = "https://github.com/abn/python-cafe"
+description = "Python Cafe: A convenience package providing various building blocks enabling pythonic patterns."
+authors = [
+    "Arun Babu Neelicattu <arun.neelicattu@gmail.com>",
+    "Josha Inglis <joshainglis@gmail.com>",
+    "Betsy Alpert <lizbeth.alpert@gmail.com>"
+]
+license = "APLv2"
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+keywords = []
+readme = "README.rst"
+
+
+[tool.poetry.dependencies]
+python = "~2.7 || ^3.4"
+six = "^1.12"
+PyYAML = "^3.13"
+enum34 = { version = "^1.1", python = "~2.7, <3.4" }
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^1.11"
+flake8 = "^3.5"
+coverage = "^4.5"
+black = { version = "^18.3-alpha.0", python = "^3.6" }
+tox = "^3.5"
+pytest = "^4.1"
