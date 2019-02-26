@@ -21,13 +21,10 @@ exclude = '''
 '''
 
 [tool.poetry]
-name = "python-cafe"
-packages = [
-    { include = "cafe" },
-]
+name = "cafeteria"
 version = "0.18.0-dev"
-repository = "https://github.com/abn/python-cafe"
-description = "Python Cafe: A convenience package providing various building blocks enabling pythonic patterns."
+repository = "https://github.com/abn/cafeteria"
+description = "Cafeteria: A convenience package providing various building blocks enabling pythonic patterns."
 authors = [
     "Arun Babu Neelicattu <arun.neelicattu@gmail.com>",
     "Josha Inglis <joshainglis@gmail.com>",

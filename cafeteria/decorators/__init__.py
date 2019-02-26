@@ -1,5 +1,5 @@
 # noinspection PyUnresolvedReferences
-from cafe.abc.compat import abstractclassmethod  # noqa F401
+from cafeteria.abc.compat import abstractclassmethod  # noqa F401
 
 
 # noinspection PyPep8Naming,SpellCheckingInspection

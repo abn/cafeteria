@@ -2,8 +2,8 @@ from copy import deepcopy
 from json import loads, load, dumps
 from os.path import isfile
 
-from cafe.patterns.borg import Borg
-from cafe.utilities import is_str
+from cafeteria.patterns.borg import Borg
+from cafeteria.utilities import is_str
 
 
 class AttributeDict(dict):
@@ -216,7 +216,7 @@ class BorgDict(Borg, dict):
 
 class JSONAttributeDict(AttributeDict):
     """
-    :type source: str or dict or cafe.datastructs.dict.JSONAttributeDict
+    :type source: str or dict or cafeteria.datastructs.dict.JSONAttributeDict
     """
 
     def __init__(self, source):

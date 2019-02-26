@@ -1,6 +1,6 @@
 from enum import Enum
 
-from cafe.datastructs.units import BaseUnitClass
+from cafeteria.datastructs.units import BaseUnitClass
 
 
 class DataMultiplier(Enum):

@@ -1,7 +1,7 @@
 from enum import Enum
 from re import match
 
-from cafe.compat import long
+from cafeteria.compat import long
 
 BYTES = 1
 KB = 1024 * BYTES

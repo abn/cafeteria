@@ -5,9 +5,9 @@ from os.path import isfile
 
 from yaml import safe_load as load
 
-from cafe.logging.trace import LOGGING_LEVELS
-from cafe.patterns.mixins import ContextMixin
-from cafe.utilities import is_str
+from cafeteria.logging.trace import LOGGING_LEVELS
+from cafeteria.patterns.mixins import ContextMixin
+from cafeteria.utilities import is_str
 
 
 class LoggingManager(object):
@@ -52,7 +52,7 @@ class LoggingManager(object):
 class LoggedObject(ContextMixin):
     def __new__(cls, *args, **kwargs):
         cls.logger = getLogger("{}.{}".format(cls.__module__, cls.__name__))
-        """:type: cafe.logging.trace.TraceEnabledLogger"""
+        """:type: cafeteria.logging.trace.TraceEnabledLogger"""
         cls.logger.trace("Instantiating %s.%s", cls.__module__, cls.__qualname__)
         return super(LoggedObject, cls).__new__(cls)
 

@@ -34,7 +34,7 @@ class BorgStateManager(object):
 class Borg(object):
     """
     A Borg pattern base class. Usable on its own or via inheritance. Uses
-    `cafe.patterns.borg.BorgStateManager` internally to achieve state
+    `cafeteria.patterns.borg.BorgStateManager` internally to achieve state
     separation for children and grand children.
 
     See http://code.activestate.com/recipes/66531-singleton-we-dont-need-no-stinkin-singleton-the-bo/ for more # noqa
