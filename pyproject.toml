@@ -53,6 +53,6 @@ pre-commit = "^1.11"
 flake8 = "^3.5"
 coverage = "^4.5"
 black = { version = "^19.3b0", python = "^3.6" }
-tox = "^3.5"
+tox = "^3.13"
 pytest = "^4.1"
 bumpversion = "^0.5.3"
