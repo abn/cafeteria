@@ -8,8 +8,7 @@ python:
 
 env:
   global:
-    - PYPI_USER=abn
-    - secure: "IcWCXDQC3gml8KonFvf5jVXaOl254yph82YkLcOJvzuuI2z6qvQEvYBw6TA38Bu+UkXorJay/fw0hkPwbOc75FyjuKxirearhMavDUr1iLHIP158XbVOUAYTonD/t1qjq+eM6pe6If/tf6GmTM3HVNrdmZmLX3jkrHYtAdGlMpViXGWlB3AzQNdDhgAjU4hyTRRnzdA2KRqai/pwFi22ZdypF1zUJE5xQCa/jZJxOGZafDdrWsOYQmJ/QK0MPvsmGsgT7RvhAu+Urfme5lGP5AJsv1C6Aitf1AxFv4NkaFBNxDXfNuiLfJJpZjX0ypiv4RDSqq+0wcE07Ib4ddSEBvrNWMPeA/61KTolHOqSsGUvtU9iwDiQKgoYCmqWwIerzPGAMSVgultgWRkpXd7B/ZTQzfS1p95t0redtghm+kUUjcVtutJvNNQv8DMa/iaJk5Ol8YHTOiOzNeJ+e/NtKbLxycvcMZCnSpCLPcYIsP2K+UKqgEGpWEOVca7OUo4gXgkpg6FKaghwvePy6HAuDifMm60JYwMmHVtRLgnFSaATvSdfrNC6+zoRHs08v7orxfDQWy89YsuMDphUbH8lgC0GSSoEQv5GWQ+f5bAUIWdDmu/tLsqz2MlJmWjQ1f6saLrDRbRyt9ck2gZEq8vcdMgTcQQhXW4BOUGBByzGZJY="
+    - secure: "BuYrI/qD0hvNGaPkLnHsBV9hJrhhlRGhDMyrEjRAWtdrLnG9WZLdnRdCAjgVPQRaH/zkTsOgoF0C2vOP2uk0qbpnC3omWTYmK0TYgJQvSzU4+6YsrsRkvsDxyPIZgUdo8eDQ23ZT1e/RnLTJHHM9hSmQCn9f2ef0Gm+OpPABz6SCYFNnLWxbmABFKRHe8PnJIGZbUjYgBd1dsEC3WXW17Qz2Ka3IeU3D2O15YoE3dx3aq/mAQJUkPCOE9FodOauxVqDkKrhmMMw4Mb9Iqi9+uBSDAln8udWMznnDurLuQ9BglVYF9Req/OVpfXbybwl04cPGC6ZmHEcaO/DjU1m3qz2JF3JD2G9Bi/l9RtSW1/NvUiPDtc4gZ2CHi4liAPg86n1u0DBgeENaaHzpzCn9fOD9FPjQLe/jFr18eTwxO7OpeCtgr6ROoVyEKDegZ17ejWVe4V9BZ5Eu0sQR75S1PrhZD9+INAFh+V7XFD7HJSlMQqjyiUCBPFTWOvoFY5Hx/2Zs7FMoyk5GhPZv4DCR/PLMDGdWvpF9Kt/jbESIVq4vcqLcKh4Qn+t262pvgwqK55IHqsn+7oflTHLQz3/gBlgH+KPYvjBNHB17sQzXa6Eq5LMgaXJ/NOxFOm+LP/qq9rhbM6zS7M804tQKnx0ABUx3eCOl8TKwgZOUAXE+zM4="
 
 install:
   - pip install poetry
@@ -38,6 +37,6 @@ jobs:
     - stage: deploy
       python: 3.6
       script:
-        - poetry config http-basic.pypi $PYPI_USER $PYPI_PASSWORD
+        - poetry config http-basic.pypi "@token" "${PYPI_API_TOKEN}"
         - poetry publish --build
       if: tag IS present
