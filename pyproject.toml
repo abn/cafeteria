@@ -21,7 +21,7 @@ exclude = '''
 
 [tool.poetry]
 name = "cafeteria"
-version = "0.19.0-dev"
+version = "0.19.0"
 repository = "https://github.com/abn/cafeteria"
 description = "Cafeteria: A convenience package providing various building blocks enabling pythonic patterns."
 authors = [
