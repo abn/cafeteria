@@ -44,7 +44,7 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "~2.7 || ^3.5"
 six = "^1.12"
-PyYAML = "^3.13"
+PyYAML = ">=3.13,<6.0"
 enum34 = { version = "^1.1", python = "~2.7, <3.4" }
 
 [tool.poetry.dev-dependencies]
