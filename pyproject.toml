@@ -55,3 +55,4 @@ black = { version = "^19.2", allows-prereleases = true, python = "^3.6" }
 tox = "^3.5"
 pytest = "^4.1"
 bumpversion = "^0.5.3"
+pytest-cov = "^2.7"
