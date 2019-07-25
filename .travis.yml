@@ -19,16 +19,6 @@ script: ignore
 
 jobs:
   include:
-    - stage: sonar
-      python: 3.6
-      addons:
-        sonarcloud:
-          organization: "abn-github"
-          token:
-            secure: "WX9mwPs3HVq4u6N9Nrlua4l3CxV+h9VGNZF3vR6SBZV6nJzQgfFKLvn8GjRktU1HgY3NvjOcs+nQrUmkH0FQeg544eCVhfxmUU/KkhCOEMD8Rpn6/kCXVZp8P2YIoRzehROPV45bB4TM+kw0u7bntM18CJFiC8gc30j/Ox27TVYBHtJh3mB+ueYjZGEckEFOZmR/r+IrC7otBApsghhRbp4+fg1f/1sWY2bhLx4rRa8sl5Le28Kuqu+Lh21Yj9UZvVsJFgP44lVm6olkG/7G23gEPlE/8FMkoTvaGUGfoAXwZgnbfLdwIuWjYxBgvM6MJMkbEJivRFiNSdjMf1ryyRiyHIE1Y703NtazMp/fm9oInv07Jrn3B2HUXQ4l8vUZjiJX4RiJ5tI3+lHTZRdkTrDdKDHT4fp3x7Q5PCdWOIrCjxtTAKUKijWCDNiftPZ6UWUACsXje9Uj+PD5UEK6Hnb7O9QYmaB4nWaFQ1hEchStCQer89Li/FSPxl/DkwQES8KcntKiQxgDEQn6NSEs0noBlwGhPb4B52fAoiQgLQV0X1ETaZR7Dr3tOrNS6IcLqw90OptmCTeXSqvaXGWytyTQyTPrshEsm3BvXJ6Co8sSYj+Yhi15QGxzeJf8JmuL3s0d+NyGeB5OlVy4kVrBPvInSzdaPsOyYXnbGN1MpO8="
-          branches:
-            - master
-      script: sonar-scanner
     - stage: build
       python: 3.6
       script:
