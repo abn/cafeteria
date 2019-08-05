@@ -48,7 +48,7 @@ PyYAML = ">=3.13,<6.0"
 enum34 = { version = "^1.1", python = "~2.7, <3.4" }
 
 [tool.poetry.dev-dependencies]
-pre-commit = "^1.11"
+pre-commit = "^1.18"
 flake8 = "^3.5"
 coverage = "^4.5"
 black = { version = "^19.2", allows-prereleases = true, python = "^3.6" }
