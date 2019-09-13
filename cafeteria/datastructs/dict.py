@@ -112,7 +112,7 @@ class MergingDict(AttributeDict):
         :rtype: None
         """
         method = self._merge_method(key)
-        if method is not None:
+        if method is not None and isinstance(self[key], type(value)):
             # strings are special, update methods like set.update looks for
             # iterables
             if method == "update" and is_str(value):
@@ -126,8 +126,9 @@ class MergingDict(AttributeDict):
                 # values to be appended
                 method = "extend"
             getattr(self[key], method)(value)
-        else:
-            super(MergingDict, self).__setitem__(key, value)
+            return
+
+        super(MergingDict, self).__setitem__(key, value)
 
     def __setitem__(self, key, value):
         self._merge(key, value)
