@@ -15,7 +15,8 @@ install:
   - poetry add --dev appdirs
   - poetry install
 
-script: ignore
+script:
+  - poetry run pytest -W ignore
 
 jobs:
   include:
