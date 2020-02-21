@@ -42,17 +42,16 @@ readme = "README.rst"
 
 
 [tool.poetry.dependencies]
-python = "~2.7 || ^3.5"
+python = "~2.7 || ^3.6"
 six = "^1.12"
 PyYAML = ">=3.13,<6.0"
 enum34 = { version = "^1.1", python = "~2.7, <3.4" }
 
 [tool.poetry.dev-dependencies]
-pre-commit = "^1.18"
+pre-commit = { version="^2.0", python = "^3.6" }
 flake8 = "^3.5"
-coverage = "^4.5"
+coverage = "^5.0"
 black = { version = "^19.2", allows-prereleases = true, python = "^3.6" }
 tox = "^3.5"
 pytest = "^4.1"
-bumpversion = "^0.5.3"
 pytest-cov = "^2.7"
