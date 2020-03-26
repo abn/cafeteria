@@ -137,7 +137,7 @@ marker = "python_version >= \"2.7\" and python_version < \"2.8\" or python_versi
 name = "enum34"
 optional = false
 python-versions = "*"
-version = "1.1.6"
+version = "1.1.10"
 
 [[package]]
 category = "dev"
@@ -306,7 +306,7 @@ six = "*"
 [[package]]
 category = "dev"
 description = "Object-oriented filesystem paths"
-marker = "python_version < \"3.4\" and sys_platform != \"win32\" or python_version < \"3.6\""
+marker = "python_version < \"3.6\" or python_version < \"3.4\" and sys_platform != \"win32\""
 name = "pathlib2"
 optional = false
 python-versions = "*"
@@ -480,7 +480,7 @@ version = "2020.2.20"
 [[package]]
 category = "dev"
 description = "scandir, a better directory iterator and faster os.walk()"
-marker = "python_version < \"3.4\" and sys_platform != \"win32\" or python_version < \"3.5\""
+marker = "python_version < \"3\" and sys_platform != \"win32\" or python_version < \"3.5\" or python_version < \"3.4\" and sys_platform != \"win32\" or python_version < \"3.4\" and sys_platform != \"win32\" and (python_version < \"3.4\" and sys_platform != \"win32\" or python_version < \"3.5\")"
 name = "scandir"
 optional = false
 python-versions = "*"
@@ -591,7 +591,7 @@ version = "0.1.8"
 [[package]]
 category = "dev"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-marker = "python_version < \"3.8\""
+marker = "python_version >= \"3.6\" and python_version < \"3.8\" or python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=2.7"
@@ -609,7 +609,7 @@ testing = ["pathlib2", "unittest2", "jaraco.itertools", "func-timeout"]
 [[package]]
 category = "dev"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-marker = "python_version >= \"3.6\" and python_version < \"3.8\" or python_version < \"3.8\""
+marker = "python_version >= \"3.6\" and python_version < \"3.8\" or python_version < \"3.8\" or python_version >= \"3.6\" and python_version < \"3.8\" and (python_version >= \"3.6\" and python_version < \"3.8\" or python_version < \"3.8\")"
 name = "zipp"
 optional = false
 python-versions = ">=3.6"
@@ -701,10 +701,9 @@ entrypoints = [
     {file = "entrypoints-0.3.tar.gz", hash = "sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451"},
 ]
 enum34 = [
-    {file = "enum34-1.1.6-py2-none-any.whl", hash = "sha256:6bd0f6ad48ec2aa117d3d141940d484deccda84d4fcd884f5c3d93c23ecd8c79"},
-    {file = "enum34-1.1.6-py3-none-any.whl", hash = "sha256:644837f692e5f550741432dd3f223bbb9852018674981b1664e5dc339387588a"},
-    {file = "enum34-1.1.6.tar.gz", hash = "sha256:8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"},
-    {file = "enum34-1.1.6.zip", hash = "sha256:2d81cbbe0e73112bdfe6ef8576f2238f2ba27dd0d55752a776c41d38b7da2850"},
+    {file = "enum34-1.1.10-py2-none-any.whl", hash = "sha256:a98a201d6de3f2ab3db284e70a33b0f896fbf35f8086594e8c9e74b909058d53"},
+    {file = "enum34-1.1.10-py3-none-any.whl", hash = "sha256:c3858660960c984d6ab0ebad691265180da2b43f07e061c0f8dca9ef3cffd328"},
+    {file = "enum34-1.1.10.tar.gz", hash = "sha256:cce6a7477ed816bd2542d03d53db9f0db935dd013b70f336a95c73979289f248"},
 ]
 filelock = [
     {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},
