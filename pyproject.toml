@@ -52,6 +52,6 @@ pre-commit = { version="^2.0", python = "^3.6" }
 flake8 = "^3.5"
 coverage = "^5.0"
 black = { version = "^19.2", allows-prereleases = true, python = "^3.6" }
-tox = "^3.5"
+tox = "^3.15"
 pytest = "^4.1"
 pytest-cov = "^2.7"
