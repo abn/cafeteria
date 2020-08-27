@@ -51,7 +51,7 @@ enum34 = { version = "^1.1", python = "~2.7, <3.4" }
 pre-commit = { version="^2.0", python = "^3.6" }
 flake8 = "^3.5"
 coverage = "^5.0"
-black = { version = "^19.2", allow-prereleases = true, python = "^3.6" }
+black = { version = "^20.8b1", allow-prereleases = true, python = "^3.6" }
 tox = "^3.5"
 pytest = "^4.1"
 pytest-cov = "^2.7"
