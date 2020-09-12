@@ -1,4 +1,4 @@
-from logging import getLogger, debug, exception, root
+from logging import debug, exception, getLogger, root
 from logging.config import dictConfig
 from os import getenv
 from os.path import isfile
