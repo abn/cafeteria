@@ -1,6 +1,6 @@
 import pytest
 
-from cafeteria.datastructs.dict import MergingDict, DeepMergingDict
+from cafeteria.datastructs.dict import DeepMergingDict, MergingDict
 
 
 @pytest.fixture
@@ -40,6 +40,12 @@ class TestMergingDict:
         assert d["dict"] == {"z": "z"}
 
 
+class ListDisabledDeepMergingDict(DeepMergingDict):
+    @property
+    def disabled_types(self):
+        return (list,)
+
+
 class TestDeepMergingDict:
     def test_simple_deep_merge(self, simple_dict, simple_dict_update):
         d = DeepMergingDict(simple_dict)
@@ -47,4 +53,12 @@ class TestDeepMergingDict:
         assert d == {
             "dict": {"one": 1, "two": 2, "nested": {"a": "a", "b": "b"}},
             "list": [1, 2, 3],
+        }
+
+    def test_simple_deep_merge_no_list(self, simple_dict, simple_dict_update):
+        d = ListDisabledDeepMergingDict(simple_dict)
+        d.update(simple_dict_update)
+        assert d == {
+            "dict": {"one": 1, "two": 2, "nested": {"a": "a", "b": "b"}},
+            "list": [2, 3],
         }

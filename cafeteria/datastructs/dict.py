@@ -1,5 +1,5 @@
 from copy import deepcopy
-from json import loads, load, dumps
+from json import dumps, load, loads
 from os.path import isfile
 
 from cafeteria.patterns.borg import Borg
@@ -48,6 +48,10 @@ class MergingDict(AttributeDict):
     is not merge-able, it is simply replaced.
     """
 
+    @property
+    def disabled_types(self):
+        return tuple()
+
     def replace(self, key, value):
         """
         Convenience method provided as a way to replace a value mapped by a
@@ -95,8 +99,11 @@ class MergingDict(AttributeDict):
         :rtype: str
         """
         if key in self:
+            obj = self[key]
+            if isinstance(obj, self.disabled_types):
+                return None
             for method in ["update", "append"]:
-                if hasattr(self[key], method):
+                if hasattr(obj, method):
                     return method
         return None
 
@@ -154,16 +161,16 @@ class DeepMergingDict(MergingDict):
     def _deep_init(self):
         for key, value in self.items():
             if self._should_cast(value):
-                self.replace(key, DeepMergingDict(value))
+                self.replace(key, self.__class__(value))
 
     def replace(self, key, value):
         if self._should_cast(value):
-            value = DeepMergingDict(value)
+            value = self.__class__(value)
         super(DeepMergingDict, self).replace(key, value)
 
     def update(self, other=None, **kwargs):
         if self._should_cast(other):
-            other = DeepMergingDict(other)
+            other = self.__class__(other)
         super(DeepMergingDict, self).update(other, **kwargs)
 
 
