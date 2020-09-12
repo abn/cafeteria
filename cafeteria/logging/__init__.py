@@ -7,7 +7,6 @@ from yaml import safe_load as load
 
 from cafeteria.logging.trace import LOGGING_LEVELS
 from cafeteria.patterns.mixins import ContextMixin
-from cafeteria.utilities import is_str
 
 
 class LoggingManager(object):
@@ -20,7 +19,7 @@ class LoggingManager(object):
         """
         level = (
             level
-            if not is_str(level)
+            if not isinstance(level, str)
             else int(LOGGING_LEVELS.get(level.upper(), level))
         )
 

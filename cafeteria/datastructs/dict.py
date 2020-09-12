@@ -3,7 +3,6 @@ from json import dumps, load, loads
 from os.path import isfile
 
 from cafeteria.patterns.borg import Borg
-from cafeteria.utilities import is_str
 
 
 class AttributeDict(dict):
@@ -122,7 +121,7 @@ class MergingDict(AttributeDict):
         if method is not None and isinstance(self[key], type(value)):
             # strings are special, update methods like set.update looks for
             # iterables
-            if method == "update" and is_str(value):
+            if method == "update" and isinstance(value, str):
                 value = [value]
             if (
                 method == "append"
@@ -231,7 +230,7 @@ class JSONAttributeDict(AttributeDict):
         super(JSONAttributeDict, self).__init__()
 
         try:
-            self.update(loads(source) if is_str(source) else deepcopy(source))
+            self.update(loads(source) if isinstance(source, str) else deepcopy(source))
         except ValueError:
             if isfile(source):
                 with open(source) as sf:
