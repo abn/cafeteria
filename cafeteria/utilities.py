@@ -1,7 +1,5 @@
 from os import getenv
 
-from six import string_types
-
 
 # noinspection SpellCheckingInspection
 def listify(arg):
@@ -19,16 +17,6 @@ def listify(arg):
     if not isinstance(arg, list):
         return [arg]
     return arg
-
-
-def is_str(arg):
-    """
-    A py2/3 compatible 'is string' check.
-
-    :type arg:
-    :rtype:
-    """
-    return isinstance(arg, string_types)
 
 
 def resolve_setting(default, arg_value=None, env_var=None, config_value=None):
