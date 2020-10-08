@@ -42,5 +42,5 @@ flake8 = "^3.8"
 coverage = "^5.2"
 black = { version = "^20.8b1", allow-prereleases = true, python = "^3.6" }
 tox = "^3.20"
-pytest = "^6.0"
+pytest = "^6.1"
 pytest-cov = "^2.7"
