@@ -37,7 +37,7 @@ python = "^3.6"
 PyYAML = ">=3.13,<6.0"
 
 [tool.poetry.dev-dependencies]
-pre-commit = {version = "^2.7", python = ">=3.6.1"}
+pre-commit = {version = "^2.11", python = ">=3.6.1"}
 flake8 = "^3.8"
 coverage = "^5.2"
 black = { version = "^20.8b1", allow-prereleases = true, python = "^3.6" }
