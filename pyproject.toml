@@ -34,7 +34,7 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-PyYAML = ">=3.13,<6.0"
+PyYAML = ">=3.13"
 
 [tool.poetry.dev-dependencies]
 pre-commit = {version = "^2.7", python = ">=3.6.1"}
