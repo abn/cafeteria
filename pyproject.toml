@@ -43,7 +43,11 @@ PyYAML = { version = ">=3.13,!=6.0.0,!=5.4.0,!=5.4.1", optional = true }
 # PyYAML is only required when YAML logging configuration is used.
 yaml = ["PyYAML"]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 coverage = "^7.4"
+pre-commit = [
+    { version = "<=3.5.0", python = "<3.9" },
+    { version = "^3.6", python = "^3.9" }
+]
 pytest = "^8.0"
 pytest-cov = "^4.1"
