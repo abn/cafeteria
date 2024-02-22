@@ -7,11 +7,14 @@ line-length = 88
 
 [tool.isort]
 profile = "black"
-src_paths = ["cafeteria", "test"]
+src_paths = ["src", "test"]
 known_first_party = "cafeteria"
 
 [tool.poetry]
 name = "cafeteria"
+packages = [
+    { include = "cafeteria", from = "src" },
+]
 version = "0.23.0a0"
 repository = "https://github.com/abn/cafeteria"
 description = "Cafeteria: A convenience package providing various building blocks enabling pythonic patterns."
