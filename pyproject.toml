@@ -12,7 +12,7 @@ known_first_party = "cafeteria"
 
 [tool.poetry]
 name = "cafeteria"
-version = "0.22.2"
+version = "0.22.3a0"
 repository = "https://github.com/abn/cafeteria"
 description = "Cafeteria: A convenience package providing various building blocks enabling pythonic patterns."
 authors = [
