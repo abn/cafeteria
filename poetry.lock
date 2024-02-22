@@ -173,7 +173,7 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtuale
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
-optional = false
+optional = true
 python-versions = ">=3.6"
 files = [
     {file = "PyYAML-6.0.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d858aa552c999bc8a8d57426ed01e40bef403cd8ccdd0fc5f6f04a00414cac2a"},
@@ -240,7 +240,10 @@ files = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 
+[extras]
+yaml = ["PyYAML"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "120929f22aa7e6bd0215d062dd537f92400125fbd93ad054b9caca611cbb7833"
+content-hash = "2ef8f2634d5882a614c6e1e6aa8344a212091ea0b8689b5a348585f2057e7980"

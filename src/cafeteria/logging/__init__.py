@@ -3,8 +3,6 @@ from logging.config import dictConfig
 from os import getenv
 from os.path import isfile
 
-from yaml import safe_load as load
-
 from cafeteria.logging.trace import LOGGING_LEVELS
 from cafeteria.patterns.mixins import ContextMixin
 
@@ -29,20 +27,31 @@ class LoggingManager(object):
         root.setLevel(level)
 
     @classmethod
-    def load_config(cls, configfile="logging.yaml"):
+    def load_config(cls, configfile=None):
         """
         :raises: ValueError
         """
-        configfile = getenv(cls.CONFIGFILE_ENV_KEY, configfile)
+        configfile = configfile or getenv(cls.CONFIGFILE_ENV_KEY, "logging.yaml")
+
         if isfile(configfile):
-            with open(configfile, "r") as cf:
-                # noinspection PyBroadException
-                try:
-                    dictConfig(load(cf))
-                except ValueError:
-                    debug("Learn to config foooo! Improper config at %s", configfile)
-                except Exception:
-                    exception("Something went wrong while reading %s.", configfile)
+            try:
+                import yaml
+            except ImportError:
+                raise Warning(
+                    f"Loading logging configuration file {configfile} requires PyYAML to be available in your runtime "
+                    f"environment. Skipping configuration."
+                )
+            else:
+                with open(configfile, "r") as cf:
+                    # noinspection PyBroadException
+                    try:
+                        dictConfig(yaml.safe_load(cf))
+                    except ValueError:
+                        debug(
+                            "Learn to config foooo! Improper config at %s", configfile
+                        )
+                    except Exception:
+                        exception("Something went wrong while reading %s.", configfile)
         else:
             raise ValueError("Invalid configfile specified: {}".format(configfile))
 
