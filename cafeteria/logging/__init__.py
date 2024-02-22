@@ -35,6 +35,11 @@ class LoggingManager(object):
         """
         configfile = getenv(cls.CONFIGFILE_ENV_KEY, configfile)
         if isfile(configfile):
+            raise DeprecationWarning(
+                "The use of a configuration file in cafeteria>=0.23.0 will required PyYAML to be explicitly installed "
+                "in your runtime environment. Alternatively, you can use cafeteria[yaml] in your dependency list."
+            )
+
             with open(configfile, "r") as cf:
                 # noinspection PyBroadException
                 try:

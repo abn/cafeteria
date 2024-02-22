@@ -36,6 +36,10 @@ readme = "README.rst"
 python = "^3.8"
 PyYAML = ">=3.13,!=6.0.0,!=5.4.0,!=5.4.1"
 
+[tool.poetry.extras]
+# PyYAML is only required when YAML logging configuration is used.
+yaml = ["PyYAML"]
+
 [tool.poetry.dev-dependencies]
 pre-commit = {version = "^2.7", python = ">=3.6.1"}
 flake8 = "^3.8"
