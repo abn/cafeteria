@@ -38,7 +38,8 @@ PyYAML = ">=3.13,!=6.0.0,!=5.4.0,!=5.4.1"
 
 [tool.poetry.extras]
 # PyYAML is only required when YAML logging configuration is used.
-yaml = ["PyYAML"]
+# This is a placeholder for to help deprecation.
+yaml = []
 
 [tool.poetry.dev-dependencies]
 pre-commit = {version = "^2.7", python = ">=3.6.1"}
