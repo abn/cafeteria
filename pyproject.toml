@@ -50,4 +50,4 @@ pre-commit = [
     { version = "^3.6", python = "^3.9" }
 ]
 pytest = "^8.0"
-pytest-cov = "^4.1"
+pytest-cov = ">=4.1,<6.0"
