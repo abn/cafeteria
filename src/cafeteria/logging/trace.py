@@ -1,11 +1,16 @@
+from __future__ import annotations
+
 import logging
+from typing import Any
 
-TRACE = 5
-logging.addLevelName(5, "TRACE")
-logging.TRACE = 5
+TRACE: int = 5
 
 
-def trace(self, msg, *args, **kwargs):
+logging.addLevelName(TRACE, "TRACE")
+setattr(logging, "TRACE", TRACE)  # noqa: B010
+
+
+def trace(self: logging.Logger, msg: str, *args: Any, **kwargs: Any) -> None:
     """
     Log 'msg % args' with severity 'TRACE'.
 
@@ -22,11 +27,9 @@ class TraceEnabledLogger(logging.Logger):
     trace = trace
 
 
-logging.Logger.trace = trace
+setattr(logging.Logger, "trace", trace)  # noqa: B010
 
-try:
-    # noinspection PyProtectedMember
-    LOGGING_LEVELS = logging._levelToName
-except AttributeError:
-    # noinspection PyProtectedMember
-    LOGGING_LEVELS = logging._levelNames
+# noinspection PyUnresolvedReferences,PyProtectedMember
+LOGGING_LEVELS: dict[int, str] = getattr(
+    logging, "_levelToName", getattr(logging, "_levelNames", {})
+)

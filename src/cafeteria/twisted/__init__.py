@@ -1,17 +1,14 @@
 try:
-    # noinspection PyPackageRequirements,PyUnresolvedReferences
-    from twisted.internet import defer, reactor
+    from twisted.internet import defer  # ty: ignore[unresolved-import]
+    from twisted.internet import reactor  # ty: ignore[unresolved-import]
 
-    def async_sleep(seconds):
+    def async_sleep(seconds: int):
         """
-        An asynchronous sleep function using twsited.
+        An asynchronous sleep function using twisted.
 
-        Source: http://twistedmatrix.com/pipermail/twisted-python/2009-October/020788.html # noqa
-
-        :type seconds: int
+        Source: https://twistedmatrix.com/pipermail/twisted-python/2009-October/020788.html
         """
         d = defer.Deferred()
-        # noinspection PyUnresolvedReferences
         reactor.callLater(seconds, d.callback, seconds)
         return d
 

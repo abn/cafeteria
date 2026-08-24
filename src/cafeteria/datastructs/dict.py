@@ -1,6 +1,10 @@
-from copy import deepcopy
-from json import dumps, load, loads
+from __future__ import annotations
+
+import copy
+import json
+from collections.abc import Iterator
 from os.path import isfile
+from typing import Any
 
 from cafeteria.patterns.borg import Borg
 
@@ -13,12 +17,12 @@ class AttributeDict(dict):
     """
 
     def __init__(self, *args, **kwargs):
-        super(AttributeDict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-    def __getattr__(self, item):
+    def __getattr__(self, item: str) -> Any:
         if item in self:
             return self[item]
-        raise AttributeError("Could not get attr: '{}' from '{}'".format(item, self))
+        raise AttributeError(f"Could not get attr: '{item}' from '{self}'")
 
     def __setattr__(self, key, value):
         self[key] = value
@@ -31,10 +35,10 @@ class DeepAttributeDict(AttributeDict):
     """
 
     def __init__(self, *args, **kwargs):
-        super(DeepAttributeDict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._deep_init()
 
-    def _deep_init(self):
+    def _deep_init(self) -> None:
         for key, value in self.items():
             if isinstance(value, dict) and not isinstance(value, AttributeDict):
                 self[key] = DeepAttributeDict(value)
@@ -48,48 +52,38 @@ class MergingDict(AttributeDict):
     """
 
     @property
-    def disabled_types(self):
+    def disabled_types(self) -> tuple:
         return tuple()
 
-    def replace(self, key, value):
+    def replace(self, key: str, value: Any) -> None:
         """
         Convenience method provided as a way to replace a value mapped by a
         key.This is required since a MergingDict always merges via assignment
         of item/attribute.
-
-        :param key: Attribute name or item key to replace rvalue for.
-        :type key: object
-        :param value: The new value to assign.
-        :type value: object
-        :return:
         """
-        super(MergingDict, self).__setitem__(key, value)
+        super().__setitem__(key, value)
 
-    def update(self, other=None, **kwargs):
+    def update(self, *args: Any, **kwargs: Any) -> None:
         """
         A special update method to handle merging of dict objects. For all
         other iterable objects, we use the parent class update method. For
         other objects, we simply make use of the internal merging logic.
-
-        :param other: An iterable object.
-        :type other: dict or object
-        :param kwargs: key/value pairs to update.
-        :rtype: None
         """
-        if other is not None:
+        if args:
+            other = args[0]
             if isinstance(other, dict):
                 for key in other:
                     self[key] = other[key]
             else:
                 # noinspection PyTypeChecker
-                super(MergingDict, self).update(other)
+                super().update(other)
 
-        for key in kwargs:
-            self._merge(key, kwargs[key])
+        for key, val in kwargs.items():
+            self._merge(key, val)
 
-    def _merge_method(self, key):
+    def _merge_method(self, key: str) -> str | None:
         """
-        Identify a merge compatible method available in self[key]. Currently we
+        Identify a merge compatible method available in self[key]. Currently, we
         support 'update' and 'append'.
 
         :param key: Attribute name or item key
@@ -106,7 +100,7 @@ class MergingDict(AttributeDict):
                     return method
         return None
 
-    def _merge(self, key, value):
+    def _merge(self, key: str, value: Any) -> None:
         """
         Internal merge logic implementation to allow merging of values when
         setting attributes/items.
@@ -123,23 +117,19 @@ class MergingDict(AttributeDict):
             # iterables
             if method == "update" and isinstance(value, str):
                 value = [value]
-            if (
-                method == "append"
-                and isinstance(self[key], list)
-                and isinstance(value, list)
-            ):
+            if method == "append" and isinstance(self[key], list) and isinstance(value, list):
                 # if rvalue is a list and given object is a list, we expect all
                 # values to be appended
                 method = "extend"
             getattr(self[key], method)(value)
             return
 
-        super(MergingDict, self).__setitem__(key, value)
+        super().__setitem__(key, value)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Any) -> None:
         self._merge(key, value)
 
-    def __setattr__(self, key, value):
+    def __setattr__(self, key: str, value: Any) -> None:
         self._merge(key, value)
 
 
@@ -150,74 +140,78 @@ class DeepMergingDict(MergingDict):
     """
 
     def __init__(self, *args, **kwargs):
-        super(DeepMergingDict, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._deep_init()
 
     @staticmethod
-    def _should_cast(value):
+    def _should_cast(value: Any) -> bool:
         return isinstance(value, dict) and not isinstance(value, MergingDict)
 
-    def _deep_init(self):
+    def _deep_init(self) -> None:
         for key, value in self.items():
             if self._should_cast(value):
                 self.replace(key, self.__class__(value))
 
-    def replace(self, key, value):
+    def replace(self, key: str, value: Any) -> None:
         if self._should_cast(value):
             value = self.__class__(value)
-        super(DeepMergingDict, self).replace(key, value)
+        super().replace(key, value)
 
-    def update(self, other=None, **kwargs):
-        if self._should_cast(other):
-            other = self.__class__(other)
-        super(DeepMergingDict, self).update(other, **kwargs)
+    def update(self, *args: Any, **kwargs: Any) -> None:
+        if args:
+            other = args[0]
+            if self._should_cast(other):
+                other = self.__class__(other)
+            super().update(other, **kwargs)
+        else:
+            super().update(**kwargs)
 
 
-class BorgDict(Borg, dict):
+class BorgDict(Borg, dict[str, Any]):
     """
-    An dict implementing the Borg Pattern. This can be extended via
+    A dict implementing the Borg Pattern. This can be extended via
     inheritance. In this implementation the dict itself is not used. All
     actions are mapped to the Borg shared state.
     """
 
-    def __init__(self, *args, **kwargs):
-        super(BorgDict, self).__init__()
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__()
         self.update(*args, **kwargs)
 
-    def update(self, *args, **kwargs):
+    def update(self, *args: Any, **kwargs: Any) -> None:
         self.__dict__.update(*args, **kwargs)
 
-    def __setitem__(self, key, value):
-        setattr(self, key, value)
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.__dict__[key] = value
 
-    def __getitem__(self, key):
-        return getattr(self, key)
+    def __getitem__(self, key: str) -> Any:
+        return self.get(key)
 
-    def __delitem__(self, key):
-        delattr(self, key)
+    def __delitem__(self, key: str) -> None:
+        del self.__dict__[key]
 
-    def __repr__(self):
-        return self.__dict__.__repr__()
+    def __repr__(self) -> str:
+        return repr(self.__dict__)
 
-    def __str__(self):
-        return self.__dict__.__str__()
+    def __str__(self) -> str:
+        return str(self.__dict__)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         return iter(self.__dict__)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.__dict__)
 
-    def __contains__(self, k):
-        return self.__dict__.__contains__(k)
+    def __contains__(self, k: object) -> bool:
+        return k in self.__dict__
 
-    def keys(self):
+    def keys(self) -> Any:
         return self.__dict__.keys()
 
-    def get(self, *args, **kwargs):
+    def get(self, *args: Any, **kwargs: Any) -> Any:
         return self.__dict__.get(*args, **kwargs)
 
-    def pop(self, *args, **kwargs):
+    def pop(self, *args: Any, **kwargs: Any) -> Any:
         return self.__dict__.pop(*args, **kwargs)
 
 
@@ -226,24 +220,24 @@ class JSONAttributeDict(AttributeDict):
     :type source: str or dict or cafeteria.datastructs.dict.JSONAttributeDict
     """
 
-    def __init__(self, source):
-        super(JSONAttributeDict, self).__init__()
+    def __init__(self, source: str | dict[str, Any] | JSONAttributeDict) -> None:
+        super().__init__()
 
         try:
-            self.update(loads(source) if isinstance(source, str) else deepcopy(source))
+            self.update(json.loads(source) if isinstance(source, str) else copy.deepcopy(source))
         except ValueError:
-            if isfile(source):
+            if isinstance(source, str) and isfile(source):
                 with open(source) as sf:
-                    self.update(load(sf))
+                    self.update(json.load(sf))
             else:
-                raise ValueError(source)
+                raise ValueError(source) from None
 
     @property
-    def pretty(self):
-        return dumps(self, indent=2)
+    def pretty(self) -> str:
+        return json.dumps(self, indent=2)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.pretty
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.pretty

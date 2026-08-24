@@ -1,4 +1,4 @@
-class ContextMixin(object):
+class ContextMixin:
     def __enter__(self):
         return self
 

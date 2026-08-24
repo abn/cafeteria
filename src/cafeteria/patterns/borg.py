@@ -1,4 +1,12 @@
-class BorgStateManager(object):
+from __future__ import annotations
+
+from collections.abc import Hashable
+from typing import Any
+from typing import ClassVar
+from typing import cast
+
+
+class BorgStateManager:
     """
     A special State Manager for Borg classes and child classes. This is what
     makes it possible for child classes to maintain their own state different
@@ -7,31 +15,25 @@ class BorgStateManager(object):
     This itself implements the Borg pattern so that all its instances have a
     shared state.
 
-    Each class state is mapped to the the hash of the class itself.
+    Each class state is mapped to the hash of the class itself.
     """
 
-    __shared_state = {}
+    __shared_state: ClassVar[dict[type[Borg], dict[Hashable, Any]]] = {}
 
     def __init__(self):
-        self.__dict__ = self.__shared_state
+        self.__dict__ = cast(dict[str, Any], self.__shared_state)
 
     @classmethod
-    def get_state(cls, clz):
+    def get_state(cls, clz: type[Borg]) -> dict[Hashable, Any]:
         """
         Retrieve the state of a given Class.
-
-        :param clz: types.ClassType
-        :return: Class state.
-        :rtype: dict
         """
         if clz not in cls.__shared_state:
-            cls.__shared_state[clz] = (
-                clz.init_state() if hasattr(clz, "init_state") else {}
-            )
+            cls.__shared_state[clz] = clz.init_state() if hasattr(clz, "init_state") else {}
         return cls.__shared_state[clz]
 
 
-class Borg(object):
+class Borg:
     """
     A Borg pattern base class. Usable on its own or via inheritance. Uses
     `cafeteria.patterns.borg.BorgStateManager` internally to achieve state
@@ -42,12 +44,12 @@ class Borg(object):
     """
 
     def __init__(self):
-        self.__dict__ = self._shared_state
+        self.__dict__ = cast(dict[str, Any], self._shared_state)
 
     @classmethod
-    def init_state(cls):
+    def init_state(cls) -> dict[Hashable, Any]:
         return {}
 
     @property
-    def _shared_state(self):
+    def _shared_state(self) -> dict[Hashable, Any]:
         return BorgStateManager.get_state(self.__class__)

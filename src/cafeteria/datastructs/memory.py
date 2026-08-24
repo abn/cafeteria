@@ -1,7 +1,7 @@
-from enum import Enum
-from re import match
+from __future__ import annotations
 
-from cafeteria.compat import long
+from enum import IntEnum
+from re import match
 
 BYTES = 1
 KB = 1024 * BYTES
@@ -10,7 +10,7 @@ GB = 1024 * MB
 TB = 1024 * GB
 
 
-class MemoryUnit(Enum):
+class MemoryUnit(IntEnum):
     BYTES = BYTES
     KB = KB
     MB = MB
@@ -18,21 +18,20 @@ class MemoryUnit(Enum):
     TB = TB
 
 
-class Memory(long):
-    # noinspection PyInitNewSignature
-    def __new__(cls, x, unit=None):
+class Memory(int):
+    def __new__(cls, x: str | int, unit: MemoryUnit | None = None) -> Memory:
         if isinstance(x, str):
             units_regex = "|".join(MemoryUnit.__members__.keys())
-            m = match(r"^(\d+) ?({})$".format(units_regex), x)
+            m = match(rf"^(\d+) ?({units_regex})$", x)
             if m is None:
                 raise ValueError(
-                    '{} requires am integer or a string in the format "<value>'
-                    ' ({})"'.format(Memory.__class__.__name__, units_regex)
+                    f'{Memory.__class__.__name__} requires am integer or a string in the format "<value>'
+                    f' ({units_regex})"'
                 )
-            x = int(m.group(1)) * MemoryUnit.__members__.get(m.group(2)).value
+            x = int(m.group(1)) * MemoryUnit[m.group(2)].value
         elif unit is None:
             raise ValueError("No unit provided.")
         else:
             x = x * unit.value
         # noinspection PyTypeChecker
-        return super(Memory, cls).__new__(cls, x)
+        return super().__new__(cls, x)

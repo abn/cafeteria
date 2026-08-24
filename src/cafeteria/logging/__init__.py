@@ -1,13 +1,22 @@
-from logging import debug, exception, getLogger, root
-from logging.config import dictConfig
+from __future__ import annotations
+
+import logging
+import logging.config
 from os import getenv
 from os.path import isfile
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import TypeVar
+from typing import cast
 
 from cafeteria.logging.trace import LOGGING_LEVELS
 from cafeteria.patterns.mixins import ContextMixin
 
+if TYPE_CHECKING:
+    from cafeteria.logging.trace import TraceEnabledLogger
 
-class LoggingManager(object):
+
+class LoggingManager:
     CONFIGFILE_ENV_KEY = "LOG_CFG"
 
     @classmethod
@@ -16,15 +25,13 @@ class LoggingManager(object):
         :raises: ValueError
         """
         level = (
-            level
-            if not isinstance(level, str)
-            else int(LOGGING_LEVELS.get(level.upper(), level))
+            level if not isinstance(level, str) else int(LOGGING_LEVELS.get(level.upper(), level))
         )
 
-        for handler in root.handlers:
+        for handler in logging.root.handlers:
             handler.setLevel(level)
 
-        root.setLevel(level)
+        logging.root.setLevel(level)
 
     @classmethod
     def load_config(cls, configfile=None):
@@ -40,38 +47,41 @@ class LoggingManager(object):
                 raise Warning(
                     f"Loading logging configuration file {configfile} requires PyYAML to be available in your runtime "
                     f"environment. Skipping configuration."
-                )
+                ) from None
             else:
-                with open(configfile, "r") as cf:
+                with open(configfile) as cf:
                     # noinspection PyBroadException
                     try:
-                        dictConfig(yaml.safe_load(cf))
+                        logging.config.dictConfig(yaml.safe_load(cf))
                     except ValueError:
-                        debug(
-                            "Learn to config foooo! Improper config at %s", configfile
-                        )
+                        logging.debug("Learn to config foooo! Improper config at %s", configfile)
                     except Exception:
-                        exception("Something went wrong while reading %s.", configfile)
+                        logging.exception("Something went wrong while reading %s.", configfile)
         else:
-            raise ValueError("Invalid configfile specified: {}".format(configfile))
+            raise ValueError(f"Invalid configfile specified: {configfile}")
+
+
+T = TypeVar("T", bound="LoggedObject")
 
 
 # noinspection PyPep8Naming
 class LoggedObject(ContextMixin):
-    def __new__(cls, *args, **kwargs):
-        cls.logger = getLogger("{}.{}".format(cls.__module__, cls.__name__))
-        """:type: cafeteria.logging.trace.TraceEnabledLogger"""
+    logger: TraceEnabledLogger
+
+    def __new__(cls: type[T], *args: Any, **kwargs: Any) -> T:
+        cls.logger = cast(
+            "TraceEnabledLogger",
+            logging.getLogger(f"{cls.__module__}.{cls.__name__}"),
+        )
         cls.logger.trace("Instantiating %s.%s", cls.__module__, cls.__qualname__)
-        return super(LoggedObject, cls).__new__(cls)
+        return super().__new__(cls)
 
     def __enter__(self):
         self.logger.trace(
             "Entering context for %s.%s", self.__module__, self.__class__.__qualname__
         )
-        return super(LoggedObject, self).__enter__()
+        return super().__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.logger.trace(
-            "Exiting context for %s.%s", self.__module__, self.__class__.__qualname__
-        )
-        super(LoggedObject, self).__exit__(exc_type, exc_val, exc_tb)
+        self.logger.trace("Exiting context for %s.%s", self.__module__, self.__class__.__qualname__)
+        super().__exit__(exc_type, exc_val, exc_tb)

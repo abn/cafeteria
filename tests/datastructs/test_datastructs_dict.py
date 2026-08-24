@@ -1,6 +1,7 @@
 import pytest
 
-from cafeteria.datastructs.dict import DeepMergingDict, MergingDict
+from cafeteria.datastructs.dict import DeepMergingDict
+from cafeteria.datastructs.dict import MergingDict
 
 
 @pytest.fixture
