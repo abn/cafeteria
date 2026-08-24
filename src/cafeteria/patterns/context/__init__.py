@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from types import TracebackType
 from typing import Generic
 from typing import ParamSpec
 from typing import Protocol
 from typing import TypeVar
+
+__all__ = ["SessionManager", "SessionProtocol"]
 
 
 class SessionProtocol(Protocol):
@@ -29,6 +32,7 @@ class SessionManager(Generic[P, T]):
     def open(self) -> None:
         if self.session is None:
             self.session = self._factory(*self._args, **self._kwargs)
+            self.session.open()
 
     def close(self) -> None:
         if self.session is not None:
@@ -39,5 +43,10 @@ class SessionManager(Generic[P, T]):
         self.open()
         return self.session
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
         self.close()

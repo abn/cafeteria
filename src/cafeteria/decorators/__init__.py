@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any
 
+__all__ = ["classproperty"]
+
 
 class classproperty(property):  # noqa: N801
     """A decorator that behaves like @property except that operates

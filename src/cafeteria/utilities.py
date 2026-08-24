@@ -6,12 +6,14 @@ from typing import TypeVar
 
 T = TypeVar("T")
 
+__all__ = ["listify", "resolve_setting"]
+
 
 # noinspection SpellCheckingInspection
-def listify(arg: set[Any] | tuple[Any] | list[Any] | T) -> list[Any] | list[T]:
+def listify(arg: set[Any] | tuple[Any, ...] | list[Any] | T) -> list[Any] | list[T]:
     """
     Simple utility method to ensure an argument provided is a list. If the
-    provider argument is not an instance of `list`, then we return [arg], else
+    provided argument is not an instance of `list`, then we return [arg], else
     arg is returned.
     """
     if isinstance(arg, set | tuple):

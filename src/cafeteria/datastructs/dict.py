@@ -8,15 +8,24 @@ from typing import Any
 
 from cafeteria.patterns.borg import Borg
 
+__all__ = [
+    "AttributeDict",
+    "BorgDict",
+    "DeepAttributeDict",
+    "DeepMergingDict",
+    "JSONAttributeDict",
+    "MergingDict",
+]
 
-class AttributeDict(dict):
+
+class AttributeDict(dict[str, Any]):
     """
     A dictionary implementation that allows for all keys to be used as an
     attribute. In this implementation we do proper get/setattr override here,
     no self.__dict__ mambo jumbo.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
     def __getattr__(self, item: str) -> Any:
@@ -24,7 +33,7 @@ class AttributeDict(dict):
             return self[item]
         raise AttributeError(f"Could not get attr: '{item}' from '{self}'")
 
-    def __setattr__(self, key, value):
+    def __setattr__(self, key: str, value: Any) -> None:
         self[key] = value
 
 
@@ -34,7 +43,7 @@ class DeepAttributeDict(AttributeDict):
     are converted to DeepAttributeDict.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self._deep_init()
 
@@ -52,8 +61,8 @@ class MergingDict(AttributeDict):
     """
 
     @property
-    def disabled_types(self) -> tuple:
-        return tuple()
+    def disabled_types(self) -> tuple[type, ...]:
+        return ()
 
     def replace(self, key: str, value: Any) -> None:
         """
@@ -139,7 +148,7 @@ class DeepMergingDict(MergingDict):
     converted to DeepMergingDicts.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self._deep_init()
 

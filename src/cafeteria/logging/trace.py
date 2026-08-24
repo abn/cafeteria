@@ -5,6 +5,13 @@ from typing import Any
 
 TRACE: int = 5
 
+__all__ = [
+    "LOGGING_LEVELS",
+    "TRACE",
+    "TraceEnabledLogger",
+    "trace",
+]
+
 
 logging.addLevelName(TRACE, "TRACE")
 setattr(logging, "TRACE", TRACE)  # noqa: B010

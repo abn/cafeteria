@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Hashable
+from collections.abc import Mapping
 from typing import Any
 from typing import TypeVar
 
@@ -9,10 +10,10 @@ logger = logging.getLogger(__name__)
 
 D = TypeVar("D")
 
+__all__ = ["get_by_path"]
 
-def get_by_path(
-    d: dict[Hashable, Any], *path: Hashable, default: D | None = None
-) -> Any | D | None:
+
+def get_by_path(d: Mapping[Any, Any], *path: Hashable, default: D | None = None) -> Any | D | None:
     """
     Given a nested dict of dicts, traverse a given path and return the result or the default if it is not found.
     This is used as a replacement for the pattern
@@ -33,5 +34,5 @@ def get_by_path(
 
     try:
         return get_by_path(d[head], *tail, default=default)
-    except KeyError:
+    except (KeyError, TypeError):
         return default

@@ -7,6 +7,8 @@ from typing import TypeVar
 
 T = TypeVar("T", bound="BaseUnitClass")
 
+__all__ = ["BaseUnitClass"]
+
 
 class BaseUnitClass(float):
     UNITS: ClassVar[Mapping[str, float | int]] = {}
