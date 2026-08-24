@@ -42,12 +42,46 @@ dev = [
     "pre-commit>=3.6.0",
     "pytest>=8.0.0",
     "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "ty>=0.0.74",
 ]
 
 [tool.poetry]
 packages = [
     { include = "cafeteria", from = "src" },
 ]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes (unused variables, undefined names)
+    "I",   # isort (import sorting)
+    "B",   # flake8-bugbear (common design bugs & performance traps)
+    "UP",  # pyupgrade (modern Python 3.10+ syntax upgrades)
+    "SIM", # flake8-simplify (simplifies complex conditional logic)
+    "N",   # pep8-naming (naming conventions)
+    "RUF", # Ruff-specific rules & best practices
+]
+ignore = [
+    "E501",   # Line length (handled cleanly by ruff format)
+    "B008",   # Do not perform function call in argument defaults
+    "SIM108", # Use ternary operator instead of if-else
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["cafeteria"]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
 
 [tool.pytest.ini_options]
 minversion = "6.0"
