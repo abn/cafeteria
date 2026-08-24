@@ -1,56 +1,53 @@
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.black]
-line-length = 88
-
-[tool.isort]
-profile = "black"
-src_paths = ["src", "test"]
-known_first_party = "cafeteria"
-
-[tool.poetry]
+[project]
 name = "cafeteria"
-packages = [
-    { include = "cafeteria", from = "src" },
-]
 version = "0.23.0a0"
-repository = "https://github.com/abn/cafeteria"
 description = "Cafeteria: A convenience package providing various building blocks enabling pythonic patterns."
 authors = [
-    "Arun Babu Neelicattu <arun.neelicattu@gmail.com>",
-    "Josha Inglis <joshainglis@gmail.com>",
-    "Betsy Alpert <lizbeth.alpert@gmail.com>"
+    { name = "Arun Babu Neelicattu", email = "arun.neelicattu@gmail.com" },
+    { name = "Josha Inglis", email = "joshainglis@gmail.com" },
+    { name = "Betsy Alpert", email = "lizbeth.alpert@gmail.com" },
 ]
-license = "APLv2"
+license = "Apache-2.0"
+readme = "README.rst"
+requires-python = ">=3.10"
 classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-keywords = []
-readme = "README.rst"
+dependencies = []
 
-
-[tool.poetry.dependencies]
-python = "^3.8"
-PyYAML = { version = ">=3.13,!=6.0.0,!=5.4.0,!=5.4.1", optional = true }
-
-[tool.poetry.extras]
-# PyYAML is only required when YAML logging configuration is used.
-yaml = ["PyYAML"]
-
-[tool.poetry.group.dev.dependencies]
-coverage = { version = "^7.4", extras = ["toml"]}
-pre-commit = [
-    { version = "<=3.5.0", python = "<3.9" },
-    { version = "^3.6", python = "^3.9" }
+[project.optional-dependencies]
+yaml = [
+    "PyYAML>=3.13,!=6.0.0,!=5.4.0,!=5.4.1",
 ]
-pytest = "^8.0"
-pytest-cov = "^4.1"
+
+[project.urls]
+Repository = "https://github.com/abn/cafeteria"
+
+[dependency-groups]
+dev = [
+    "coverage[toml]>=7.4",
+    "pre-commit>=3.6.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+]
+
+[tool.poetry]
+packages = [
+    { include = "cafeteria", from = "src" },
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
