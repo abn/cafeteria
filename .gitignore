@@ -60,3 +60,11 @@ target/
 .idea/
 
 .sonar/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# uv lockfile (Poetry is canonical)
+uv.lock
