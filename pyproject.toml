@@ -25,6 +25,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Framework :: AsyncIO",
 ]
 dependencies = []
 
@@ -41,7 +42,9 @@ dev = [
     "coverage[toml]>=7.4",
     "pre-commit>=3.6.0",
     "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
     "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
     "ruff>=0.3.0",
     "ty>=0.0.74",
 ]
@@ -86,6 +89,7 @@ skip-magic-trailing-comma = false
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--cov --cov-append --cov-report=term"
+asyncio_mode = "auto"
 testpaths = [
     "tests",
 ]
