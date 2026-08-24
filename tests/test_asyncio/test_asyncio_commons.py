@@ -25,22 +25,6 @@ def ensure_signal_handlers_registered(
         assert arg in signal_handlers
 
 
-def test_handle_signals(recwarn: Any) -> None:
-    # noinspection PyDeprecation
-    from cafeteria.asyncio.commons import handle_signals
-
-    loop = asyncio.new_event_loop()
-    handle_signals(loop)
-    ensure_signal_handlers_registered(loop)
-
-    # ensure a deprecation warning was issued
-    assert len(recwarn) == 1
-    w = recwarn.pop(DeprecationWarning)
-    assert issubclass(w.category, DeprecationWarning)
-    assert str(w.message) == "Use cancel_tasks_on_termination instead"
-    loop.close()
-
-
 def test_cancel_tasks_on_termination_default() -> None:
     loop = asyncio.new_event_loop()
     cancel_tasks_on_termination(loop, signal.SIGABRT)

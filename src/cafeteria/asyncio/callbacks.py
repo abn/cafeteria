@@ -4,7 +4,6 @@ import asyncio
 import contextlib
 import inspect
 import logging
-import warnings
 from collections.abc import Callable
 from collections.abc import Coroutine
 from collections.abc import Generator
@@ -16,6 +15,16 @@ from typing import Any
 from typing import cast
 
 from cafeteria.logging import LoggedObject
+
+__all__ = [
+    "Callback",
+    "CallbackRegistry",
+    "CallbackResultType",
+    "CallbackType",
+    "EventType",
+    "SimpleTriggerCallback",
+    "trigger_callback",
+]
 
 CallbackResultType = (
     asyncio.Task[Any]
@@ -192,23 +201,3 @@ class CallbackRegistry(LoggedObject):
         for callback in self.callbacks(event_type):
             self.logger.debug("Executing callback %s", callback)
             _ = callback.trigger(*args, **kwargs)
-
-    async def handle_event(self, event_type: EventType, *args: Any, **kwargs: Any) -> None:
-        """
-        Method called when an event is to be dispatched/handled. This arguments expects
-        any additional positional/keyword arguments required when triggering the
-        callback.
-
-        :param event_type: Event type to dispatch
-        :param args: Positional arguments to be passed into the callback before any
-            pre-configured positional arguments.
-        :param kwargs: Keyword arguments to be passed when triggering the callback.
-            These override any pre-configured arguments.
-        """
-        warnings.warn(
-            "CallbackRegistry.handle_event() is deprecated in favour of "
-            "CallbackRegistry.dispatch() and will be removed in a future version",
-            category=DeprecationWarning,
-            stacklevel=2,
-        )
-        return self.dispatch(event_type, *args, **kwargs)

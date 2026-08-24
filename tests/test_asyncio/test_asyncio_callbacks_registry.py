@@ -134,11 +134,3 @@ def test_callback_registry_deregister_non_existing() -> None:
         CallbackRegistry().deregister("one", lambda x: None)
     except Exception:
         pytest.fail("Unexpected exception")
-
-
-@pytest.mark.asyncio
-async def test_callback_registry_handle_event(mocker: Any) -> None:
-    callback = mocker.Mock()
-    with pytest.warns(DeprecationWarning):
-        await CallbackRegistry(callbacks={"one": callback}).handle_event("one", "one")
-        callback.assert_called_once_with("one")

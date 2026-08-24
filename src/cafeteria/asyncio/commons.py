@@ -3,9 +3,10 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import signal
-import warnings
 from asyncio import AbstractEventLoop
 from typing import Any
+
+__all__ = ["cancel_all_tasks", "cancel_tasks_on_termination"]
 
 
 async def cancel_all_tasks(
@@ -57,12 +58,3 @@ def cancel_tasks_on_termination(
         loop.add_signal_handler(
             sig, lambda: asyncio.ensure_future(cancel_all_tasks(loop=loop), loop=loop)
         )
-
-
-def handle_signals(event_loop: AbstractEventLoop, *signames: str) -> None:
-    warnings.warn(
-        f"Use {cancel_tasks_on_termination.__name__} instead",
-        category=DeprecationWarning,
-        stacklevel=2,
-    )
-    return cancel_tasks_on_termination(event_loop, *signames)
