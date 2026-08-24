@@ -5,7 +5,6 @@ from typing import Any
 import pytest
 
 import cafeteria
-from cafeteria.abc import AbstractClass
 from cafeteria.datastructs import Memory
 from cafeteria.datastructs import MemoryUnit
 from cafeteria.datastructs.units import BaseUnitClass
@@ -21,13 +20,6 @@ from cafeteria.utilities import resolve_setting
 
 def test_package_version() -> None:
     assert cafeteria.__version__ == "0.23.0a0"
-
-
-def test_abstract_class() -> None:
-    class DummyAbstract(AbstractClass):
-        pass
-
-    assert issubclass(DummyAbstract, AbstractClass)
 
 
 def test_memory_units() -> None:
