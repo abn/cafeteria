@@ -19,7 +19,7 @@ from cafeteria.utilities import resolve_setting
 
 
 def test_package_version() -> None:
-    assert cafeteria.__version__ == "0.23.0a0"
+    assert cafeteria.__version__ == "0.23.0"
 
 
 def test_memory_units() -> None:
