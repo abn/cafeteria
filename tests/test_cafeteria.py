@@ -4,8 +4,10 @@ from typing import Any
 
 import pytest
 
+from cafeteria.datastructs import Duration
 from cafeteria.datastructs import Memory
 from cafeteria.datastructs import MemoryUnit
+from cafeteria.datastructs import TimeUnit
 from cafeteria.datastructs.units import BaseUnitClass
 from cafeteria.datastructs.units.data import DataRateUnit
 from cafeteria.datastructs.units.data import DataUnit
@@ -44,6 +46,20 @@ def test_data_units() -> None:
 
     with pytest.raises(ValueError):
         BaseUnitClass(100)
+
+
+def test_duration_units() -> None:
+    d = Duration("1h 30m 15s")
+    assert d.total_seconds == 5415.0
+    assert d == Duration(90, TimeUnit.MINUTES) + Duration(15, TimeUnit.SECONDS)
+    assert d.hours == 1.5041666666666667
+    assert d.seconds == 5415
+
+    with pytest.raises(ValueError):
+        Duration("invalid")
+
+    with pytest.raises(ValueError):
+        Duration(100)
 
 
 def test_classproperty() -> None:

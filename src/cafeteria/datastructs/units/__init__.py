@@ -7,7 +7,11 @@ from typing import TypeVar
 
 T = TypeVar("T", bound="BaseUnitClass")
 
-__all__ = ["BaseUnitClass"]
+__all__ = [
+    "BaseUnitClass",
+    "Duration",
+    "TimeUnit",
+]
 
 
 class BaseUnitClass(float):
@@ -38,3 +42,7 @@ class BaseUnitClass(float):
             rounded = int(result)
             return result if result != rounded else rounded
         raise AttributeError(f"{item} is not a valid conversion unit")
+
+
+from cafeteria.datastructs.units.time import Duration  # noqa: E402
+from cafeteria.datastructs.units.time import TimeUnit  # noqa: E402
