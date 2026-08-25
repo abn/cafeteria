@@ -23,6 +23,7 @@
   - `Duration` & `TimeUnit`: Human-readable time duration parsing, unit conversions, and `timedelta` arithmetic (`Duration("1h 30m 15s")`, `Duration(90, TimeUnit.MINUTES)`).
   - `DataUnit` & `DataRateUnit`: Bit/byte and bandwidth rate conversion utilities (`DataUnit(1, "byte").bit == 8`, `DataRateUnit(100, "Mbps")`).
 - **AsyncIO Utilities & Patterns (`cafeteria.asyncio`)**:
+  - `PeriodicTask` & `AsyncTimer`: Recurring coroutine runner with monotonic drift compensation, pause/resume/stop controls, error hooks, and `cancel_all_tasks` integration.
   - `Callback` & `CallbackRegistry`: Synchronous and asynchronous event dispatching and handler registries.
   - `cancel_all_tasks` & `cancel_tasks_on_termination`: Graceful event loop shutdown and signal cancellation (SIGINT, SIGTERM).
   - `AsyncioGracefulApplication`: Standard lifecycle pattern for asyncio applications with signal trapping and task cleanup.
@@ -145,7 +146,42 @@ async def main():
 asyncio.run(main())
 ```
 
-### 4. Borg Singleton Pattern
+### 4. Periodic Tasks & Async Timer
+
+```python
+import asyncio
+from cafeteria.asyncio import periodic_task, PeriodicTask
+from cafeteria.datastructs import Duration
+
+
+# Decorate a coroutine with drift compensation
+@periodic_task(interval=Duration("5s"), immediate=True)
+async def heartbeat():
+    print("Heartbeat ping...")
+
+
+async def main():
+    # Context manager automatically starts and stops the task
+    async with heartbeat:
+        await asyncio.sleep(12)
+        heartbeat.pause()
+        await asyncio.sleep(5)
+        heartbeat.resume()
+
+    # Direct instantiation with error handling
+    def on_error(exc: Exception):
+        print(f"Task error: {exc}")
+
+    runner = PeriodicTask(heartbeat.tick, interval=1.0, on_error=on_error)
+    runner.start()
+    await asyncio.sleep(3)
+    runner.stop()
+
+
+asyncio.run(main())
+```
+
+### 5. Borg Singleton Pattern
 
 ```python
 from cafeteria.patterns import Borg
@@ -170,7 +206,7 @@ cache = CachePool()
 assert not hasattr(cache, "connection")
 ```
 
-### 5. Context-Aware Logging & Trace Level
+### 6. Context-Aware Logging & Trace Level
 
 ```python
 from cafeteria.logging import LoggedObject, LoggingManager
@@ -188,7 +224,7 @@ with Worker() as worker:
     worker.process()
 ```
 
-### 6. Deep Key Traversal (`get_by_path`)
+### 7. Deep Key Traversal (`get_by_path`)
 
 ```python
 from cafeteria.patterns import get_by_path
@@ -202,7 +238,7 @@ missing = get_by_path(data, "services", "database", "host", default="localhost")
 assert missing == "localhost"
 ```
 
-### 7. Sync and Async Retry Decorator
+### 8. Sync and Async Retry Decorator
 
 ```python
 import asyncio
@@ -238,7 +274,7 @@ def compute() -> int:
     return 42
 ```
 
-### 8. Safe Boolean Coercion (`to_bool` / `boolify`)
+### 9. Safe Boolean Coercion (`to_bool` / `boolify`)
 
 ```python
 from cafeteria.utilities import boolify, to_bool
