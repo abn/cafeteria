@@ -16,6 +16,9 @@
 
 - **Data Structures (`cafeteria.datastructs`)**:
   - `AttributeDict` & `DeepAttributeDict`: Access dictionary keys as object attributes with recursive nested mapping support.
+  - `ReadOnlyDict`: An immutable dictionary mapping preventing modification after initialization and supporting hashing for hashable values.
+  - `FrozenAttributeDict` & `DeepFrozenAttributeDict`: Immutable attribute dictionary for safe runtime configuration objects.
+  - `CaseInsensitiveDict` & `DeepCaseInsensitiveDict`: Header- and key-insensitive dictionary supporting attribute and item lookups with casing preservation.
   - `MergingDict` & `DeepMergingDict`: Dictionaries that automatically merge nested dictionaries, lists, or update-compatible values on attribute or key assignment.
   - `BorgDict`: A dictionary backed directly by shared Borg singleton state.
   - `JSONAttributeDict`: Attribute dictionary with seamless JSON serialization and pretty-printing.
@@ -72,11 +75,31 @@ poetry add cafeteria
 ### 1. Attribute and Merging Dictionaries
 
 ```python
-from cafeteria.datastructs import AttributeDict, DeepMergingDict
+from cafeteria.datastructs import (
+    AttributeDict,
+    CaseInsensitiveDict,
+    DeepFrozenAttributeDict,
+    DeepMergingDict,
+    FrozenAttributeDict,
+    ReadOnlyDict,
+)
 
 # Access keys as attributes
 cfg = AttributeDict({"server": {"host": "localhost", "port": 8080}})
 assert cfg.server["host"] == "localhost"
+
+# Immutable configuration objects
+frozen_cfg = DeepFrozenAttributeDict({"database": {"host": "localhost", "port": 5432}})
+assert frozen_cfg.database.host == "localhost"
+# frozen_cfg.database.host = "remote"  # Raises AttributeError!
+
+# Header- and case-insensitive dictionaries with attribute and key lookup
+headers = CaseInsensitiveDict({"Content-Type": "application/json", "Host": "example.com"})
+assert headers["content-type"] == "application/json"
+assert headers.content_type == "application/json"
+assert headers.Host == "example.com"
+headers.content_type = "text/html"
+assert headers["Content-Type"] == "text/html"
 
 # Automatically merge nested data structures
 merged = DeepMergingDict({"tags": ["python"], "database": {"port": 5432}})
