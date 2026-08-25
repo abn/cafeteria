@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.0](https://github.com/abn/cafeteria/compare/v1.0.0...v1.1.0) (2026-08-25)
+
+
+### Features
+
+* **asyncio:** add PeriodicTask and AsyncTimer runner ([#192](https://github.com/abn/cafeteria/issues/192)) ([9cfa567](https://github.com/abn/cafeteria/commit/9cfa56760614b0685306bc1d8daa5a0993aecf4a))
+* **datastructs:** add ReadOnlyDict, FrozenAttributeDict, and CaseInsensitiveDict ([#191](https://github.com/abn/cafeteria/issues/191)) ([84d9b64](https://github.com/abn/cafeteria/commit/84d9b6408958d5da17f99cd64fdd0cb1077aa9df))
+* **decorators:** add zero-dependency retry decorator ([#189](https://github.com/abn/cafeteria/issues/189)) ([dba6dbf](https://github.com/abn/cafeteria/commit/dba6dbfe0b8312c19aa499569341758568469e23))
+* **units:** add Duration and TimeUnit classes ([#188](https://github.com/abn/cafeteria/issues/188)) ([5e79c4b](https://github.com/abn/cafeteria/commit/5e79c4b745d1b2481f9afee5cf072f11cfbcc354))
+* **utilities:** add to_bool and boolify ([#190](https://github.com/abn/cafeteria/issues/190)) ([9a5316e](https://github.com/abn/cafeteria/commit/9a5316e93c949f3c402d0aed234fcca91e61c95b))
+
+
+### Build & Packaging
+
+* **deps:** bump the github-actions group with 2 updates ([#187](https://github.com/abn/cafeteria/issues/187)) ([593d659](https://github.com/abn/cafeteria/commit/593d659a3809f0a7e9dce4bf7be0d33cf83a7f5f))
+
+
+### Continuous Integration
+
+* configure monthly grouped dependabot updates ([dd66ffd](https://github.com/abn/cafeteria/commit/dd66ffda743a262451e0279a180d80b578e20b81))
+
 ## [1.0.0](https://github.com/abn/cafeteria/compare/v0.22.3...v1.0.0) (2026-08-25)
 
 
