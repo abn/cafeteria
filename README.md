@@ -20,6 +20,7 @@
   - `BorgDict`: A dictionary backed directly by shared Borg singleton state.
   - `JSONAttributeDict`: Attribute dictionary with seamless JSON serialization and pretty-printing.
   - `Memory` & `MemoryUnit`: Human-readable memory unit parsing, conversion, and arithmetic (`Memory("1024 KB")`, `MemoryUnit.GB`).
+  - `Duration` & `TimeUnit`: Human-readable time duration parsing, unit conversions, and `timedelta` arithmetic (`Duration("1h 30m 15s")`, `Duration(90, TimeUnit.MINUTES)`).
   - `DataUnit` & `DataRateUnit`: Bit/byte and bandwidth rate conversion utilities (`DataUnit(1, "byte").bit == 8`, `DataRateUnit(100, "Mbps")`).
 - **AsyncIO Utilities & Patterns (`cafeteria.asyncio`)**:
   - `Callback` & `CallbackRegistry`: Synchronous and asynchronous event dispatching and handler registries.
@@ -86,11 +87,18 @@ assert merged.database.host == "db.local"
 assert merged.database.port == 5432
 ```
 
-### 2. Memory and Data Units
+### 2. Memory, Time, and Data Units
 
 ```python
-from cafeteria.datastructs import Memory, MemoryUnit
-from cafeteria.datastructs.units.data import DataUnit, DataRateUnit
+from cafeteria.datastructs import Duration, Memory, MemoryUnit, TimeUnit
+from cafeteria.datastructs.units.data import DataRateUnit, DataUnit
+
+# Parse and convert time durations
+d = Duration("1h 30m 15s")
+assert d.total_seconds == 5415.0
+assert d == Duration(90, TimeUnit.MINUTES) + Duration(15, TimeUnit.SECONDS)
+assert d.hours == 1.5041666666666667
+assert d.seconds == 5415
 
 # Parse and convert memory sizes
 ram = Memory("1024 KB")
