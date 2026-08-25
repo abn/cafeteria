@@ -59,8 +59,6 @@ target/
 # intellij
 .idea/
 
-.sonar/
-
 # Virtual environments
 .venv/
 venv/
