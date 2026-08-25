@@ -4,7 +4,6 @@ from typing import Any
 
 import pytest
 
-import cafeteria
 from cafeteria.datastructs import Memory
 from cafeteria.datastructs import MemoryUnit
 from cafeteria.datastructs.units import BaseUnitClass
@@ -16,10 +15,6 @@ from cafeteria.patterns import SessionManager
 from cafeteria.patterns import get_by_path
 from cafeteria.utilities import listify
 from cafeteria.utilities import resolve_setting
-
-
-def test_package_version() -> None:
-    assert cafeteria.__version__ == "0.23.0"
 
 
 def test_memory_units() -> None:

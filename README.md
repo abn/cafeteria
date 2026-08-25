@@ -99,8 +99,8 @@ assert ram == Memory(1, MemoryUnit.MB)
 
 # Bit and byte conversions
 size = DataUnit(1, "byte")
-assert size == 8            # 8 bits
-assert size.byte == 1       # 1 byte
+assert size == 8  # 8 bits
+assert size.byte == 1  # 1 byte
 assert size.bit == 8
 
 # Data bandwidth rates
@@ -116,10 +116,12 @@ from cafeteria.asyncio import CallbackRegistry, cancel_tasks_on_termination
 
 registry = CallbackRegistry()
 
+
 # Register synchronous or coroutine callbacks
 @registry.register("on_startup")
 async def startup_handler(app_name: str):
     print(f"Starting {app_name}...")
+
 
 async def main():
     loop = asyncio.get_running_loop()
@@ -129,6 +131,7 @@ async def main():
     # Dispatch events
     registry.dispatch("on_startup", "MyApp")
 
+
 asyncio.run(main())
 ```
 
@@ -137,11 +140,14 @@ asyncio.run(main())
 ```python
 from cafeteria.patterns import Borg
 
+
 class DatabasePool(Borg):
     pass
 
+
 class CachePool(Borg):
     pass
+
 
 db1 = DatabasePool()
 db1.connection = "postgresql://localhost:5432"
@@ -162,9 +168,11 @@ from cafeteria.logging import LoggedObject, LoggingManager
 # Enable TRACE logging level
 LoggingManager.set_level("TRACE")
 
+
 class Worker(LoggedObject):
     def process(self):
         self.logger.trace("Processing worker job")
+
 
 with Worker() as worker:
     worker.process()
