@@ -3,7 +3,9 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any
 
-__all__ = ["classproperty"]
+from cafeteria.decorators.retry import retry
+
+__all__ = ["classproperty", "retry"]
 
 
 class classproperty(property):  # noqa: N801
