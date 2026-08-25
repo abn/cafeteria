@@ -6,6 +6,7 @@ from cafeteria.asyncio.callbacks import SimpleTriggerCallback
 from cafeteria.asyncio.callbacks import trigger_callback
 from cafeteria.asyncio.commons import cancel_all_tasks
 from cafeteria.asyncio.commons import cancel_tasks_on_termination
+from cafeteria.decorators.retry import retry
 
 __all__ = [
     "Callback",
@@ -13,5 +14,6 @@ __all__ = [
     "SimpleTriggerCallback",
     "cancel_all_tasks",
     "cancel_tasks_on_termination",
+    "retry",
     "trigger_callback",
 ]

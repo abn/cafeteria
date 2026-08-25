@@ -12,6 +12,7 @@ from cafeteria.datastructs.units import BaseUnitClass
 from cafeteria.datastructs.units.data import DataRateUnit
 from cafeteria.datastructs.units.data import DataUnit
 from cafeteria.decorators import classproperty
+from cafeteria.decorators import retry
 from cafeteria.patterns import ContextMixin
 from cafeteria.patterns import SessionManager
 from cafeteria.patterns import get_by_path
@@ -115,3 +116,33 @@ def test_session_manager() -> None:
         assert session is not None
         assert session.is_open
     assert manager.session is None
+
+
+def test_retry_decorator() -> None:
+    calls = 0
+
+    @retry(attempts=3, backoff=0.0)
+    def flaky_func() -> str:
+        nonlocal calls
+        calls += 1
+        if calls < 2:
+            raise ConnectionError("transient")
+        return "success"
+
+    assert flaky_func() == "success"
+    assert calls == 2
+
+
+async def test_retry_async_decorator() -> None:
+    calls = 0
+
+    @retry(attempts=3, backoff=0.0, retry_on=(ConnectionError,))
+    async def flaky_async() -> str:
+        nonlocal calls
+        calls += 1
+        if calls < 2:
+            raise ConnectionError("transient")
+        return "async success"
+
+    assert await flaky_async() == "async success"
+    assert calls == 2

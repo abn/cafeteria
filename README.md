@@ -36,6 +36,7 @@
   - `TRACE` logging level (`logging.TRACE = 5`).
   - `LoggingManager`: Declarative logging configuration management from YAML files or environment variables.
 - **Decorators (`cafeteria.decorators`)**:
+  - `retry`: Zero-dependency retry decorator supporting both sync and async functions with exponential backoff, jitter, selective exception catching, and hooks.
   - `classproperty`: Class-level read-only property decorator compatible across Python 3.10–3.14.
 - **General Utilities (`cafeteria.utilities`)**:
   - `listify`: Coerce arguments, tuples, or sets into standard Python lists.
@@ -198,6 +199,42 @@ assert secret == "supersecret"
 
 missing = get_by_path(data, "services", "database", "host", default="localhost")
 assert missing == "localhost"
+```
+
+### 7. Sync and Async Retry Decorator
+
+```python
+import asyncio
+from cafeteria.datastructs import Duration
+from cafeteria.decorators import retry
+
+
+# Asynchronous function with exponential backoff, jitter, and selective retry
+@retry(
+    attempts=3,
+    backoff=0.5,
+    factor=2.0,
+    jitter=True,
+    retry_on=(ConnectionError, TimeoutError),
+)
+async def fetch_data(url: str) -> str:
+    # Retries up to 3 times on ConnectionError or TimeoutError
+    return "response"
+
+
+# Synchronous function with Duration support and retry callback
+def log_retry(exc: Exception, attempt: int, delay: float) -> None:
+    print(f"Attempt {attempt} failed with {exc}. Retrying in {delay:.2f}s...")
+
+
+@retry(
+    attempts=4,
+    backoff=Duration("250ms"),
+    max_backoff=Duration("2s"),
+    on_retry=log_retry,
+)
+def compute() -> int:
+    return 42
 ```
 
 ---
