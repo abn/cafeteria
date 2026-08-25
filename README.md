@@ -41,6 +41,7 @@
 - **General Utilities (`cafeteria.utilities`)**:
   - `listify`: Coerce arguments, tuples, or sets into standard Python lists.
   - `resolve_setting`: Hierarchical configuration resolution (CLI argument > Environment Variable > Config File > Default).
+  - `to_bool` & `boolify`: Safe string-to-boolean coercion (`"true"`, `"yes"`, `"1"`, `"on"` -> `True`) with default fallback support.
 
 ---
 
@@ -235,6 +236,30 @@ def log_retry(exc: Exception, attempt: int, delay: float) -> None:
 )
 def compute() -> int:
     return 42
+```
+
+### 8. Safe Boolean Coercion (`to_bool` / `boolify`)
+
+```python
+from cafeteria.utilities import boolify, to_bool
+
+# Coerce truthy representations
+assert to_bool("true") is True
+assert to_bool("yes") is True
+assert to_bool("1") is True
+assert to_bool("on") is True
+assert to_bool("enabled") is True
+
+# Coerce falsy representations
+assert to_bool("false") is False
+assert to_bool("no") is False
+assert to_bool("0") is False
+assert to_bool("off") is False
+assert to_bool("disabled") is False
+
+# Safe fallback with default
+assert to_bool("unknown", default=False) is False
+assert boolify("invalid", default=True) is True
 ```
 
 ---
