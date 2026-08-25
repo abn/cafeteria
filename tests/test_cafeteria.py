@@ -16,8 +16,10 @@ from cafeteria.decorators import retry
 from cafeteria.patterns import ContextMixin
 from cafeteria.patterns import SessionManager
 from cafeteria.patterns import get_by_path
+from cafeteria.utilities import boolify
 from cafeteria.utilities import listify
 from cafeteria.utilities import resolve_setting
+from cafeteria.utilities import to_bool
 
 
 def test_memory_units() -> None:
@@ -81,15 +83,128 @@ def test_get_by_path() -> None:
         get_by_path(data)
 
 
-def test_utilities() -> None:
+def test_utilities(monkeypatch: pytest.MonkeyPatch) -> None:
     assert listify("item") == ["item"]
     assert listify(["item"]) == ["item"]
     assert listify(("item",)) == ["item"]
     assert listify({"item"}) == ["item"]
 
+    monkeypatch.setenv("TEST_CAFETERIA_SETTING", "env_val")
+    assert resolve_setting(default="def", env_var="TEST_CAFETERIA_SETTING") == "env_val"
     assert resolve_setting(default="def", arg_value="arg") == "arg"
     assert resolve_setting(default="def", env_var="NON_EXISTENT_CAFETERIA_ENV_XYZ") == "def"
     assert resolve_setting(default="def", config_value="cfg") == "cfg"
+
+
+def test_to_bool_truthy() -> None:
+    truthy_cases = [
+        "true",
+        "True",
+        "TRUE",
+        "yes",
+        "Yes",
+        "YES",
+        "1",
+        "on",
+        "On",
+        "ON",
+        "t",
+        "T",
+        "y",
+        "Y",
+        "enable",
+        "Enable",
+        "enabled",
+        "ENABLED",
+        True,
+        1,
+        1.0,
+        b"true",
+        b"1",
+        b"yes",
+        bytearray(b"on"),
+        "  true  ",
+        "\t 1 \n",
+        "  ENABLE  ",
+    ]
+    for case in truthy_cases:
+        assert to_bool(case) is True
+        assert boolify(case) is True
+
+
+def test_to_bool_falsy() -> None:
+    falsy_cases = [
+        "false",
+        "False",
+        "FALSE",
+        "no",
+        "No",
+        "NO",
+        "0",
+        "off",
+        "Off",
+        "OFF",
+        "f",
+        "F",
+        "n",
+        "N",
+        "disable",
+        "Disable",
+        "disabled",
+        "DISABLED",
+        False,
+        0,
+        0.0,
+        b"false",
+        b"0",
+        b"off",
+        bytearray(b"no"),
+        "  false  ",
+        "\n 0 \t",
+        "  DISABLED  ",
+    ]
+    for case in falsy_cases:
+        assert to_bool(case) is False
+        assert boolify(case) is False
+
+
+def test_to_bool_default() -> None:
+    assert to_bool("invalid", default=False) is False
+    assert to_bool("invalid", default=True) is True
+    assert to_bool(None, default=None) is None
+    assert to_bool(None, default=False) is False
+    assert to_bool(42, default=True) is True
+    assert to_bool(b"\xff\xfe", default=False) is False
+    assert to_bool([], default="fallback") == "fallback"
+    assert to_bool({}, default=None) is None
+
+    assert boolify("invalid", default=False) is False
+
+
+def test_to_bool_errors() -> None:
+    invalid_cases = [
+        "invalid",
+        "maybe",
+        "",
+        "   ",
+        None,
+        2,
+        -1,
+        1.5,
+        b"\xff\xfe",
+        [],
+        {},
+        object(),
+    ]
+    for case in invalid_cases:
+        with pytest.raises(ValueError):
+            to_bool(case)
+        with pytest.raises(ValueError):
+            boolify(case)
+
+
+def test_boolify_alias() -> None:
+    assert boolify is to_bool
 
 
 def test_context_mixin() -> None:
